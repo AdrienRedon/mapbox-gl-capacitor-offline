@@ -1,9 +1,7 @@
 import VectorTileSource from 'mapbox-gl/src/source/vector_tile_source'
 import pako from 'pako/lib/inflate'
 import base64js from 'base64-js'
-import { Plugins } from '@capacitor/core';
 
-const CapacitorSQLite = { Plugins };
 
 class MBTilesSource extends VectorTileSource {
 
@@ -11,17 +9,13 @@ class MBTilesSource extends VectorTileSource {
     constructor(id, options, dispatcher, eventedParent) {
         super(id, options, dispatcher, eventedParent);
         this.type = "mbtiles";
-        this.dbLocation = options.path;
-    }
-
-    openDatabase() {
-        return CapacitorSQLite.open({ database: this.dbLocation });
+        this.db = options.db;
     }
 
     readTile(z, x, y, callback) {
         const query = `SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=${z} AND tile_column=${x} AND tile_row=${y}`;
         // const params = [z, x, y];
-        this.openDatabase().then(function() {
+        this.db.then(function() {
             // db.transaction(function (txn) {
             //     txn.executeSql(query, params, function (tx, res) {
             //         if (res.rows.length) {
