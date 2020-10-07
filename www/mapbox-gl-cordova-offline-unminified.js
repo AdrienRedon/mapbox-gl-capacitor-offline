@@ -1,4 +1,4 @@
-/* Mapbox GL JS is licensed under the 3-Clause BSD License. Full text of license: https://github.com/mapbox/mapbox-gl-js/blob/v0.2.0/LICENSE.txt */
+/* Mapbox GL JS is licensed under the 3-Clause BSD License. Full text of license: https://github.com/mapbox/mapbox-gl-js/blob/v0.2.1/LICENSE.txt */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 typeof define === 'function' && define.amd ? define(factory) :
@@ -17264,6 +17264,2567 @@ function shapeIcon(image, iconOffset, iconAnchor) {
     };
 }
 
+var CameraSource;
+(function (CameraSource) {
+    CameraSource['Prompt'] = 'PROMPT';
+    CameraSource['Camera'] = 'CAMERA';
+    CameraSource['Photos'] = 'PHOTOS';
+}(CameraSource || (CameraSource = {})));
+var CameraDirection;
+(function (CameraDirection) {
+    CameraDirection['Rear'] = 'REAR';
+    CameraDirection['Front'] = 'FRONT';
+}(CameraDirection || (CameraDirection = {})));
+var CameraResultType;
+(function (CameraResultType) {
+    CameraResultType['Uri'] = 'uri';
+    CameraResultType['Base64'] = 'base64';
+    CameraResultType['DataUrl'] = 'dataUrl';
+}(CameraResultType || (CameraResultType = {})));
+var FilesystemDirectory;
+(function (FilesystemDirectory) {
+    FilesystemDirectory['Documents'] = 'DOCUMENTS';
+    FilesystemDirectory['Data'] = 'DATA';
+    FilesystemDirectory['Cache'] = 'CACHE';
+    FilesystemDirectory['External'] = 'EXTERNAL';
+    FilesystemDirectory['ExternalStorage'] = 'EXTERNAL_STORAGE';
+}(FilesystemDirectory || (FilesystemDirectory = {})));
+var FilesystemEncoding;
+(function (FilesystemEncoding) {
+    FilesystemEncoding['UTF8'] = 'utf8';
+    FilesystemEncoding['ASCII'] = 'ascii';
+    FilesystemEncoding['UTF16'] = 'utf16';
+}(FilesystemEncoding || (FilesystemEncoding = {})));
+var HapticsImpactStyle;
+(function (HapticsImpactStyle) {
+    HapticsImpactStyle['Heavy'] = 'HEAVY';
+    HapticsImpactStyle['Medium'] = 'MEDIUM';
+    HapticsImpactStyle['Light'] = 'LIGHT';
+}(HapticsImpactStyle || (HapticsImpactStyle = {})));
+var HapticsNotificationType;
+(function (HapticsNotificationType) {
+    HapticsNotificationType['SUCCESS'] = 'SUCCESS';
+    HapticsNotificationType['WARNING'] = 'WARNING';
+    HapticsNotificationType['ERROR'] = 'ERROR';
+}(HapticsNotificationType || (HapticsNotificationType = {})));
+var KeyboardStyle;
+(function (KeyboardStyle) {
+    KeyboardStyle['Dark'] = 'DARK';
+    KeyboardStyle['Light'] = 'LIGHT';
+}(KeyboardStyle || (KeyboardStyle = {})));
+var KeyboardResize;
+(function (KeyboardResize) {
+    KeyboardResize['Body'] = 'body';
+    KeyboardResize['Ionic'] = 'ionic';
+    KeyboardResize['Native'] = 'native';
+    KeyboardResize['None'] = 'none';
+}(KeyboardResize || (KeyboardResize = {})));
+var ActionSheetOptionStyle;
+(function (ActionSheetOptionStyle) {
+    ActionSheetOptionStyle['Default'] = 'DEFAULT';
+    ActionSheetOptionStyle['Destructive'] = 'DESTRUCTIVE';
+    ActionSheetOptionStyle['Cancel'] = 'CANCEL';
+}(ActionSheetOptionStyle || (ActionSheetOptionStyle = {})));
+var PermissionType;
+(function (PermissionType) {
+    PermissionType['Camera'] = 'camera';
+    PermissionType['Photos'] = 'photos';
+    PermissionType['Geolocation'] = 'geolocation';
+    PermissionType['Notifications'] = 'notifications';
+    PermissionType['ClipboardRead'] = 'clipboard-read';
+    PermissionType['ClipboardWrite'] = 'clipboard-write';
+    PermissionType['Microphone'] = 'microphone';
+}(PermissionType || (PermissionType = {})));
+var PhotosAlbumType;
+(function (PhotosAlbumType) {
+    PhotosAlbumType['Smart'] = 'smart';
+    PhotosAlbumType['Shared'] = 'shared';
+    PhotosAlbumType['User'] = 'user';
+}(PhotosAlbumType || (PhotosAlbumType = {})));
+var StatusBarStyle;
+(function (StatusBarStyle) {
+    StatusBarStyle['Dark'] = 'DARK';
+    StatusBarStyle['Light'] = 'LIGHT';
+}(StatusBarStyle || (StatusBarStyle = {})));
+var StatusBarAnimation;
+(function (StatusBarAnimation) {
+    StatusBarAnimation['None'] = 'NONE';
+    StatusBarAnimation['Slide'] = 'SLIDE';
+    StatusBarAnimation['Fade'] = 'FADE';
+}(StatusBarAnimation || (StatusBarAnimation = {})));
+
+var CapacitorWeb = function () {
+    function CapacitorWeb() {
+        var _this = this;
+        this.platform = 'web';
+        this.isNative = false;
+        this.Plugins = {};
+        if (typeof Proxy !== 'undefined') {
+            this.Plugins = new Proxy(this.Plugins, {
+                get: function (target, prop) {
+                    if (typeof target[prop] === 'undefined') {
+                        var thisRef_1 = _this;
+                        return new Proxy({}, {
+                            get: function (_target, _prop) {
+                                if (typeof _target[_prop] === 'undefined') {
+                                    return thisRef_1.pluginMethodNoop.bind(thisRef_1, _target, _prop, prop);
+                                } else {
+                                    return _target[_prop];
+                                }
+                            }
+                        });
+                    } else {
+                        return target[prop];
+                    }
+                }
+            });
+        }
+    }
+    CapacitorWeb.prototype.pluginMethodNoop = function (_target, _prop, pluginName) {
+        return Promise.reject(pluginName + ' does not have web implementation.');
+    };
+    CapacitorWeb.prototype.getPlatform = function () {
+        return this.platform;
+    };
+    CapacitorWeb.prototype.isPluginAvailable = function (name) {
+        return this.Plugins.hasOwnProperty(name);
+    };
+    CapacitorWeb.prototype.convertFileSrc = function (filePath) {
+        return filePath;
+    };
+    CapacitorWeb.prototype.handleError = function (e) {
+        console.error(e);
+    };
+    return CapacitorWeb;
+}();
+
+var Capacitor$1 = function (globalThis) {
+    return globalThis.Capacitor = globalThis.Capacitor || new CapacitorWeb();
+}(typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {});
+var Plugins = Capacitor$1.Plugins;
+
+var WebPluginRegistry = function () {
+    function WebPluginRegistry() {
+        this.plugins = {};
+        this.loadedPlugins = {};
+    }
+    WebPluginRegistry.prototype.addPlugin = function (plugin) {
+        this.plugins[plugin.config.name] = plugin;
+    };
+    WebPluginRegistry.prototype.getPlugin = function (name) {
+        return this.plugins[name];
+    };
+    WebPluginRegistry.prototype.loadPlugin = function (name) {
+        var plugin = this.getPlugin(name);
+        if (!plugin) {
+            console.error('Unable to load web plugin ' + name + ', no such plugin found.');
+            return;
+        }
+        plugin.load();
+    };
+    WebPluginRegistry.prototype.getPlugins = function () {
+        var this$1 = this;
+
+        var p = [];
+        for (var name_1 in this$1.plugins) {
+            p.push(this$1.plugins[name_1]);
+        }
+        return p;
+    };
+    return WebPluginRegistry;
+}();
+var WebPlugins = new WebPluginRegistry();
+var WebPlugin = function () {
+    function WebPlugin(config, pluginRegistry) {
+        this.config = config;
+        this.loaded = false;
+        this.listeners = {};
+        this.windowListeners = {};
+        if (!pluginRegistry) {
+            WebPlugins.addPlugin(this);
+        } else {
+            pluginRegistry.addPlugin(this);
+        }
+    }
+    WebPlugin.prototype.addWindowListener = function (handle) {
+        window.addEventListener(handle.windowEventName, handle.handler);
+        handle.registered = true;
+    };
+    WebPlugin.prototype.removeWindowListener = function (handle) {
+        if (!handle) {
+            return;
+        }
+        window.removeEventListener(handle.windowEventName, handle.handler);
+        handle.registered = false;
+    };
+    WebPlugin.prototype.addListener = function (eventName, listenerFunc) {
+        var _this = this;
+        var listeners = this.listeners[eventName];
+        if (!listeners) {
+            this.listeners[eventName] = [];
+        }
+        this.listeners[eventName].push(listenerFunc);
+        var windowListener = this.windowListeners[eventName];
+        if (windowListener && !windowListener.registered) {
+            this.addWindowListener(windowListener);
+        }
+        return {
+            remove: function () {
+                _this.removeListener(eventName, listenerFunc);
+            }
+        };
+    };
+    WebPlugin.prototype.removeListener = function (eventName, listenerFunc) {
+        var listeners = this.listeners[eventName];
+        if (!listeners) {
+            return;
+        }
+        var index = listeners.indexOf(listenerFunc);
+        this.listeners[eventName].splice(index, 1);
+        if (!this.listeners[eventName].length) {
+            this.removeWindowListener(this.windowListeners[eventName]);
+        }
+    };
+    WebPlugin.prototype.removeAllListeners = function () {
+        var this$1 = this;
+
+        this.listeners = {};
+        for (var listener in this$1.windowListeners) {
+            this$1.removeWindowListener(this$1.windowListeners[listener]);
+        }
+        this.windowListeners = {};
+    };
+    WebPlugin.prototype.notifyListeners = function (eventName, data) {
+        var listeners = this.listeners[eventName];
+        if (listeners) {
+            listeners.forEach(function (listener) {
+                return listener(data);
+            });
+        }
+    };
+    WebPlugin.prototype.hasListeners = function (eventName) {
+        return !!this.listeners[eventName].length;
+    };
+    WebPlugin.prototype.registerWindowListener = function (windowEventName, pluginEventName) {
+        var _this = this;
+        this.windowListeners[pluginEventName] = {
+            registered: false,
+            windowEventName: windowEventName,
+            pluginEventName: pluginEventName,
+            handler: function (event) {
+                _this.notifyListeners(pluginEventName, event);
+            }
+        };
+    };
+    WebPlugin.prototype.requestPermissions = function () {
+        if (Capacitor.isNative) {
+            return Capacitor.nativePromise(this.config.name, 'requestPermissions', {});
+        } else {
+            return Promise.resolve({ results: [] });
+        }
+    };
+    WebPlugin.prototype.load = function () {
+        this.loaded = true;
+    };
+    return WebPlugin;
+}();
+var shouldMergeWebPlugin = function (plugin) {
+    return plugin.config.platforms && plugin.config.platforms.indexOf(Capacitor.platform) >= 0;
+};
+var mergeWebPlugins = function (knownPlugins) {
+    var plugins = WebPlugins.getPlugins();
+    for (var _i = 0, plugins_1 = plugins; _i < plugins_1.length; _i++) {
+        var plugin = plugins_1[_i];
+        mergeWebPlugin(knownPlugins, plugin);
+    }
+};
+var mergeWebPlugin = function (knownPlugins, plugin) {
+    if (knownPlugins.hasOwnProperty(plugin.config.name) && !shouldMergeWebPlugin(plugin)) {
+        return;
+    }
+    knownPlugins[plugin.config.name] = plugin;
+};
+
+var extendStatics = function (d, b) {
+    extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+        d.__proto__ = b;
+    } || function (d, b) {
+        for (var p in b)
+            { if (b.hasOwnProperty(p))
+                { d[p] = b[p]; } }
+    };
+    return extendStatics(d, b);
+};
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+function __awaiter(thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator['throw'](value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : new P(function (resolve) {
+                resolve(result.value);
+            }).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+function __generator(thisArg, body) {
+    var _ = {
+            label: 0,
+            sent: function () {
+                if (t[0] & 1)
+                    { throw t[1]; }
+                return t[1];
+            },
+            trys: [],
+            ops: []
+        }, f, y, t, g;
+    return g = {
+        next: verb(0),
+        'throw': verb(1),
+        'return': verb(2)
+    }, typeof Symbol === 'function' && (g[Symbol.iterator] = function () {
+        return this;
+    }), g;
+    function verb(n) {
+        return function (v) {
+            return step([
+                n,
+                v
+            ]);
+        };
+    }
+    function step(op) {
+        if (f)
+            { throw new TypeError('Generator is already executing.'); }
+        while (_)
+            { try {
+                if (f = 1, y && (t = op[0] & 2 ? y['return'] : op[0] ? y['throw'] || ((t = y['return']) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                    { return t; }
+                if (y = 0, t)
+                    { op = [
+                        op[0] & 2,
+                        t.value
+                    ]; }
+                switch (op[0]) {
+                case 0:
+                case 1:
+                    t = op;
+                    break;
+                case 4:
+                    _.label++;
+                    return {
+                        value: op[1],
+                        done: false
+                    };
+                case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [0];
+                    continue;
+                case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];
+                        break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                    }
+                    if (t[2])
+                        { _.ops.pop(); }
+                    _.trys.pop();
+                    continue;
+                }
+                op = body.call(thisArg, _);
+            } catch (e) {
+                op = [
+                    6,
+                    e
+                ];
+                y = 0;
+            } finally {
+                f = t = 0;
+            } }
+        if (op[0] & 5)
+            { throw op[1]; }
+        return {
+            value: op[0] ? op[1] : void 0,
+            done: true
+        };
+    }
+}
+
+var AccessibilityPluginWeb = function (_super) {
+    __extends(AccessibilityPluginWeb, _super);
+    function AccessibilityPluginWeb() {
+        return _super.call(this, {
+            name: 'Accessibility',
+            platforms: ['web']
+        }) || this;
+    }
+    AccessibilityPluginWeb.prototype.isScreenReaderEnabled = function () {
+        throw new Error('Feature not available in the browser');
+    };
+    AccessibilityPluginWeb.prototype.speak = function (options) {
+        if (!('speechSynthesis' in window)) {
+            return Promise.reject('Browser does not support the Speech Synthesis API');
+        }
+        var utterance = new SpeechSynthesisUtterance(options.value);
+        if (options.language) {
+            utterance.lang = options.language;
+        }
+        window.speechSynthesis.speak(utterance);
+        return Promise.resolve();
+    };
+    return AccessibilityPluginWeb;
+}(WebPlugin);
+var Accessibility = new AccessibilityPluginWeb();
+
+var AppPluginWeb = function (_super) {
+    __extends(AppPluginWeb, _super);
+    function AppPluginWeb() {
+        var _this = _super.call(this, {
+            name: 'App',
+            platforms: ['web']
+        }) || this;
+        if (typeof document !== 'undefined') {
+            document.addEventListener('visibilitychange', _this.handleVisibilityChange.bind(_this), false);
+        }
+        return _this;
+    }
+    AppPluginWeb.prototype.exitApp = function () {
+        throw new Error('Method not implemented.');
+    };
+    AppPluginWeb.prototype.canOpenUrl = function (_options) {
+        return Promise.resolve({ value: true });
+    };
+    AppPluginWeb.prototype.openUrl = function (_options) {
+        return Promise.resolve({ completed: true });
+    };
+    AppPluginWeb.prototype.getLaunchUrl = function () {
+        return Promise.resolve({ url: '' });
+    };
+    AppPluginWeb.prototype.getState = function () {
+        return Promise.resolve({ isActive: document.hidden !== true });
+    };
+    AppPluginWeb.prototype.handleVisibilityChange = function () {
+        var data = { isActive: document.hidden !== true };
+        this.notifyListeners('appStateChange', data);
+    };
+    return AppPluginWeb;
+}(WebPlugin);
+var App = new AppPluginWeb();
+
+var BrowserPluginWeb = function (_super) {
+    __extends(BrowserPluginWeb, _super);
+    function BrowserPluginWeb() {
+        return _super.call(this, {
+            name: 'Browser',
+            platforms: ['web']
+        }) || this;
+    }
+    BrowserPluginWeb.prototype.open = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this._lastWindow = window.open(options.url, options.windowName || '_blank');
+                return [
+                    2,
+                    Promise.resolve()
+                ];
+            });
+        });
+    };
+    BrowserPluginWeb.prototype.prefetch = function (_options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    Promise.resolve()
+                ];
+            });
+        });
+    };
+    BrowserPluginWeb.prototype.close = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this._lastWindow && this._lastWindow.close();
+                return [
+                    2,
+                    Promise.resolve()
+                ];
+            });
+        });
+    };
+    return BrowserPluginWeb;
+}(WebPlugin);
+var Browser = new BrowserPluginWeb();
+
+var CameraPluginWeb = function (_super) {
+    __extends(CameraPluginWeb, _super);
+    function CameraPluginWeb() {
+        return _super.call(this, {
+            name: 'Camera',
+            platforms: ['web']
+        }) || this;
+    }
+    CameraPluginWeb.prototype.getPhoto = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    new Promise(function (resolve, reject) {
+                        return __awaiter(_this, void 0, void 0, function () {
+                            var cameraModal_1, e_1;
+                            var _this = this;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                case 0:
+                                    if (!options.webUseInput)
+                                        { return [
+                                            3,
+                                            1
+                                        ]; }
+                                    this.fileInputExperience(options, resolve);
+                                    return [
+                                        3,
+                                        7
+                                    ];
+                                case 1:
+                                    if (!customElements.get('pwa-camera-modal'))
+                                        { return [
+                                            3,
+                                            6
+                                        ]; }
+                                    cameraModal_1 = document.createElement('pwa-camera-modal');
+                                    document.body.appendChild(cameraModal_1);
+                                    _a.label = 2;
+                                case 2:
+                                    _a.trys.push([
+                                        2,
+                                        4,
+                                        ,
+                                        5
+                                    ]);
+                                    return [
+                                        4,
+                                        cameraModal_1.componentOnReady()
+                                    ];
+                                case 3:
+                                    _a.sent();
+                                    cameraModal_1.addEventListener('onPhoto', function (e) {
+                                        return __awaiter(_this, void 0, void 0, function () {
+                                            var photo, _a;
+                                            return __generator(this, function (_b) {
+                                                switch (_b.label) {
+                                                case 0:
+                                                    photo = e.detail;
+                                                    if (!(photo === null))
+                                                        { return [
+                                                            3,
+                                                            1
+                                                        ]; }
+                                                    reject('User cancelled photos app');
+                                                    return [
+                                                        3,
+                                                        4
+                                                    ];
+                                                case 1:
+                                                    if (!(photo instanceof Error))
+                                                        { return [
+                                                            3,
+                                                            2
+                                                        ]; }
+                                                    reject(photo.message);
+                                                    return [
+                                                        3,
+                                                        4
+                                                    ];
+                                                case 2:
+                                                    _a = resolve;
+                                                    return [
+                                                        4,
+                                                        this._getCameraPhoto(photo, options)
+                                                    ];
+                                                case 3:
+                                                    _a.apply(void 0, [_b.sent()]);
+                                                    _b.label = 4;
+                                                case 4:
+                                                    cameraModal_1.dismiss();
+                                                    document.body.removeChild(cameraModal_1);
+                                                    return [2];
+                                                }
+                                            });
+                                        });
+                                    });
+                                    cameraModal_1.present();
+                                    return [
+                                        3,
+                                        5
+                                    ];
+                                case 4:
+                                    e_1 = _a.sent();
+                                    this.fileInputExperience(options, resolve);
+                                    return [
+                                        3,
+                                        5
+                                    ];
+                                case 5:
+                                    return [
+                                        3,
+                                        7
+                                    ];
+                                case 6:
+                                    console.error('Unable to load PWA Element \'pwa-camera-modal\'. See the docs: https://capacitorjs.com/docs/pwa-elements.');
+                                    this.fileInputExperience(options, resolve);
+                                    _a.label = 7;
+                                case 7:
+                                    return [2];
+                                }
+                            });
+                        });
+                    })
+                ];
+            });
+        });
+    };
+    CameraPluginWeb.prototype.fileInputExperience = function (options, resolve) {
+        var input = document.querySelector('#_capacitor-camera-input');
+        var cleanup = function () {
+            input.parentNode && input.parentNode.removeChild(input);
+        };
+        if (!input) {
+            input = document.createElement('input');
+            input.id = '_capacitor-camera-input';
+            input.type = 'file';
+            document.body.appendChild(input);
+        }
+        input.accept = 'image/*';
+        input.capture = true;
+        if (options.source === CameraSource.Photos || options.source === CameraSource.Prompt) {
+            input.removeAttribute('capture');
+        } else if (options.direction === CameraDirection.Front) {
+            input.capture = 'user';
+        } else if (options.direction === CameraDirection.Rear) {
+            input.capture = 'environment';
+        }
+        input.addEventListener('change', function (_e) {
+            var file = input.files[0];
+            var format = 'jpeg';
+            if (file.type === 'image/png') {
+                format = 'png';
+            } else if (file.type === 'image/gif') {
+                format = 'gif';
+            }
+            if (options.resultType === CameraResultType.DataUrl || options.resultType === CameraResultType.Base64) {
+                var reader_1 = new FileReader();
+                reader_1.addEventListener('load', function () {
+                    if (options.resultType === CameraResultType.DataUrl) {
+                        resolve({
+                            dataUrl: reader_1.result,
+                            format: format
+                        });
+                    } else if (options.resultType === CameraResultType.Base64) {
+                        var b64 = reader_1.result.split(',')[1];
+                        resolve({
+                            base64String: b64,
+                            format: format
+                        });
+                    }
+                    cleanup();
+                });
+                reader_1.readAsDataURL(file);
+            } else {
+                resolve({
+                    webPath: URL.createObjectURL(file),
+                    format: format
+                });
+                cleanup();
+            }
+        });
+        input.click();
+    };
+    CameraPluginWeb.prototype._getCameraPhoto = function (photo, options) {
+        return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            var format = photo.type.split('/')[1];
+            if (options.resultType === CameraResultType.Uri) {
+                resolve({
+                    webPath: URL.createObjectURL(photo),
+                    format: format
+                });
+            } else {
+                reader.readAsDataURL(photo);
+                reader.onloadend = function () {
+                    var r = reader.result;
+                    if (options.resultType === CameraResultType.DataUrl) {
+                        resolve({
+                            dataUrl: r,
+                            format: format
+                        });
+                    } else {
+                        resolve({
+                            base64String: r.split(',')[1],
+                            format: format
+                        });
+                    }
+                };
+                reader.onerror = function (e) {
+                    reject(e);
+                };
+            }
+        });
+    };
+    return CameraPluginWeb;
+}(WebPlugin);
+var Camera = new CameraPluginWeb();
+
+var ClipboardPluginWeb = function (_super) {
+    __extends(ClipboardPluginWeb, _super);
+    function ClipboardPluginWeb() {
+        return _super.call(this, {
+            name: 'Clipboard',
+            platforms: ['web']
+        }) || this;
+    }
+    ClipboardPluginWeb.prototype.write = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var blob, clipboardItemInput, err_1;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                case 0:
+                    if (!navigator.clipboard) {
+                        return [
+                            2,
+                            Promise.reject('Clipboard API not available in this browser')
+                        ];
+                    }
+                    if (!(options.string !== undefined || options.url))
+                        { return [
+                            3,
+                            2
+                        ]; }
+                    if (!navigator.clipboard.writeText) {
+                        return [
+                            2,
+                            Promise.reject('Writting to clipboard not supported in this browser')
+                        ];
+                    }
+                    return [
+                        4,
+                        navigator.clipboard.writeText(options.string !== undefined ? options.string : options.url)
+                    ];
+                case 1:
+                    _b.sent();
+                    return [
+                        3,
+                        10
+                    ];
+                case 2:
+                    if (!options.image)
+                        { return [
+                            3,
+                            9
+                        ]; }
+                    if (!navigator.clipboard.write) {
+                        return [
+                            2,
+                            Promise.reject('Setting images not supported in this browser')
+                        ];
+                    }
+                    _b.label = 3;
+                case 3:
+                    _b.trys.push([
+                        3,
+                        7,
+                        ,
+                        8
+                    ]);
+                    return [
+                        4,
+                        fetch(options.image)
+                    ];
+                case 4:
+                    return [
+                        4,
+                        _b.sent().blob()
+                    ];
+                case 5:
+                    blob = _b.sent();
+                    clipboardItemInput = new ClipboardItem((_a = {}, _a[blob.type] = blob, _a));
+                    return [
+                        4,
+                        navigator.clipboard.write([clipboardItemInput])
+                    ];
+                case 6:
+                    _b.sent();
+                    return [
+                        3,
+                        8
+                    ];
+                case 7:
+                    err_1 = _b.sent();
+                    return [
+                        2,
+                        Promise.reject('Failed to write image')
+                    ];
+                case 8:
+                    return [
+                        3,
+                        10
+                    ];
+                case 9:
+                    return [
+                        2,
+                        Promise.reject('Nothing to write')
+                    ];
+                case 10:
+                    return [
+                        2,
+                        Promise.resolve()
+                    ];
+                }
+            });
+        });
+    };
+    ClipboardPluginWeb.prototype.read = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var clipboardItems, type, clipboardBlob, data, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    if (!navigator.clipboard) {
+                        return [
+                            2,
+                            Promise.reject('Clipboard API not available in this browser')
+                        ];
+                    }
+                    if (!!navigator.clipboard.read)
+                        { return [
+                            3,
+                            1
+                        ]; }
+                    if (!navigator.clipboard.readText) {
+                        return [
+                            2,
+                            Promise.reject('Reading from clipboard not supported in this browser')
+                        ];
+                    }
+                    return [
+                        2,
+                        this.readText()
+                    ];
+                case 1:
+                    _a.trys.push([
+                        1,
+                        5,
+                        ,
+                        6
+                    ]);
+                    return [
+                        4,
+                        navigator.clipboard.read()
+                    ];
+                case 2:
+                    clipboardItems = _a.sent();
+                    type = clipboardItems[0].types[0];
+                    return [
+                        4,
+                        clipboardItems[0].getType(type)
+                    ];
+                case 3:
+                    clipboardBlob = _a.sent();
+                    return [
+                        4,
+                        this._getBlobData(clipboardBlob, type)
+                    ];
+                case 4:
+                    data = _a.sent();
+                    return [
+                        2,
+                        Promise.resolve({
+                            value: data,
+                            type: type
+                        })
+                    ];
+                case 5:
+                    err_2 = _a.sent();
+                    return [
+                        2,
+                        this.readText()
+                    ];
+                case 6:
+                    return [2];
+                }
+            });
+        });
+    };
+    ClipboardPluginWeb.prototype.readText = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var text;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    return [
+                        4,
+                        navigator.clipboard.readText()
+                    ];
+                case 1:
+                    text = _a.sent();
+                    return [
+                        2,
+                        Promise.resolve({
+                            value: text,
+                            type: 'text/plain'
+                        })
+                    ];
+                }
+            });
+        });
+    };
+    ClipboardPluginWeb.prototype._getBlobData = function (clipboardBlob, type) {
+        return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            if (type.includes('image')) {
+                reader.readAsDataURL(clipboardBlob);
+            } else {
+                reader.readAsText(clipboardBlob);
+            }
+            reader.onloadend = function () {
+                var r = reader.result;
+                resolve(r);
+            };
+            reader.onerror = function (e) {
+                reject(e);
+            };
+        });
+    };
+    return ClipboardPluginWeb;
+}(WebPlugin);
+var Clipboard = new ClipboardPluginWeb();
+
+var FilesystemPluginWeb = function (_super) {
+    __extends(FilesystemPluginWeb, _super);
+    function FilesystemPluginWeb() {
+        var _this = _super.call(this, {
+            name: 'Filesystem',
+            platforms: ['web']
+        }) || this;
+        _this.DEFAULT_DIRECTORY = FilesystemDirectory.Data;
+        _this.DB_VERSION = 1;
+        _this.DB_NAME = 'Disc';
+        _this._writeCmds = [
+            'add',
+            'put',
+            'delete'
+        ];
+        return _this;
+    }
+    FilesystemPluginWeb.prototype.initDb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                if (this._db !== undefined) {
+                    return [
+                        2,
+                        this._db
+                    ];
+                }
+                if (!('indexedDB' in window)) {
+                    throw new Error('This browser doesn\'t support IndexedDB');
+                }
+                return [
+                    2,
+                    new Promise(function (resolve, reject) {
+                        var request = indexedDB.open(_this.DB_NAME, _this.DB_VERSION);
+                        request.onupgradeneeded = FilesystemPluginWeb.doUpgrade;
+                        request.onsuccess = function () {
+                            _this._db = request.result;
+                            resolve(request.result);
+                        };
+                        request.onerror = function () {
+                            return reject(request.error);
+                        };
+                        request.onblocked = function () {
+                            console.warn('db blocked');
+                        };
+                    })
+                ];
+            });
+        });
+    };
+    FilesystemPluginWeb.doUpgrade = function (event) {
+        var eventTarget = event.target;
+        var db = eventTarget.result;
+        switch (event.oldVersion) {
+        case 0:
+        case 1:
+        default:
+            if (db.objectStoreNames.contains('FileStorage')) {
+                db.deleteObjectStore('FileStorage');
+            }
+            var store = db.createObjectStore('FileStorage', { keyPath: 'path' });
+            store.createIndex('by_folder', 'folder');
+        }
+    };
+    FilesystemPluginWeb.prototype.dbRequest = function (cmd, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var readFlag;
+            return __generator(this, function (_a) {
+                readFlag = this._writeCmds.indexOf(cmd) !== -1 ? 'readwrite' : 'readonly';
+                return [
+                    2,
+                    this.initDb().then(function (conn) {
+                        return new Promise(function (resolve, reject) {
+                            var tx = conn.transaction(['FileStorage'], readFlag);
+                            var store = tx.objectStore('FileStorage');
+                            var req = store[cmd].apply(store, args);
+                            req.onsuccess = function () {
+                                return resolve(req.result);
+                            };
+                            req.onerror = function () {
+                                return reject(req.error);
+                            };
+                        });
+                    })
+                ];
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.dbIndexRequest = function (indexName, cmd, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var readFlag;
+            return __generator(this, function (_a) {
+                readFlag = this._writeCmds.indexOf(cmd) !== -1 ? 'readwrite' : 'readonly';
+                return [
+                    2,
+                    this.initDb().then(function (conn) {
+                        return new Promise(function (resolve, reject) {
+                            var tx = conn.transaction(['FileStorage'], readFlag);
+                            var store = tx.objectStore('FileStorage');
+                            var index = store.index(indexName);
+                            var req = index[cmd].apply(index, args);
+                            req.onsuccess = function () {
+                                return resolve(req.result);
+                            };
+                            req.onerror = function () {
+                                return reject(req.error);
+                            };
+                        });
+                    })
+                ];
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.getPath = function (directory, uriPath) {
+        directory = directory || this.DEFAULT_DIRECTORY;
+        var cleanedUriPath = uriPath !== undefined ? uriPath.replace(/^[/]+|[/]+$/g, '') : '';
+        var fsPath = '/' + directory;
+        if (uriPath !== '')
+            { fsPath += '/' + cleanedUriPath; }
+        return fsPath;
+    };
+    FilesystemPluginWeb.prototype.clear = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, tx, store;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    return [
+                        4,
+                        this.initDb()
+                    ];
+                case 1:
+                    conn = _a.sent();
+                    tx = conn.transaction(['FileStorage'], 'readwrite');
+                    store = tx.objectStore('FileStorage');
+                    store.clear();
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.readFile = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, entry;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    entry = _a.sent();
+                    if (entry === undefined)
+                        { throw Error('File does not exist.'); }
+                    return [
+                        2,
+                        { data: entry.content }
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.writeFile = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, data, doRecursive, occupiedEntry, encoding, parentPath, parentEntry, subDirIndex, parentArgPath, now, pathObj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    data = options.data;
+                    doRecursive = options.recursive;
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    occupiedEntry = _a.sent();
+                    if (occupiedEntry && occupiedEntry.type === 'directory')
+                        { throw 'The supplied path is a directory.'; }
+                    encoding = options.encoding;
+                    parentPath = path.substr(0, path.lastIndexOf('/'));
+                    return [
+                        4,
+                        this.dbRequest('get', [parentPath])
+                    ];
+                case 2:
+                    parentEntry = _a.sent();
+                    if (!(parentEntry === undefined))
+                        { return [
+                            3,
+                            4
+                        ]; }
+                    subDirIndex = parentPath.indexOf('/', 1);
+                    if (!(subDirIndex !== -1))
+                        { return [
+                            3,
+                            4
+                        ]; }
+                    parentArgPath = parentPath.substr(subDirIndex);
+                    return [
+                        4,
+                        this.mkdir({
+                            path: parentArgPath,
+                            directory: options.directory,
+                            recursive: doRecursive
+                        })
+                    ];
+                case 3:
+                    _a.sent();
+                    _a.label = 4;
+                case 4:
+                    now = Date.now();
+                    pathObj = {
+                        path: path,
+                        folder: parentPath,
+                        type: 'file',
+                        size: data.length,
+                        ctime: now,
+                        mtime: now,
+                        content: !encoding && data.indexOf(',') >= 0 ? data.split(',')[1] : data
+                    };
+                    return [
+                        4,
+                        this.dbRequest('put', [pathObj])
+                    ];
+                case 5:
+                    _a.sent();
+                    return [
+                        2,
+                        { uri: pathObj.path }
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.appendFile = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, data, parentPath, now, ctime, occupiedEntry, parentEntry, parentArgPathIndex, parentArgPath, pathObj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    data = options.data;
+                    parentPath = path.substr(0, path.lastIndexOf('/'));
+                    now = Date.now();
+                    ctime = now;
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    occupiedEntry = _a.sent();
+                    if (occupiedEntry && occupiedEntry.type === 'directory')
+                        { throw 'The supplied path is a directory.'; }
+                    return [
+                        4,
+                        this.dbRequest('get', [parentPath])
+                    ];
+                case 2:
+                    parentEntry = _a.sent();
+                    if (!(parentEntry === undefined))
+                        { return [
+                            3,
+                            4
+                        ]; }
+                    parentArgPathIndex = parentPath.indexOf('/', 1);
+                    parentArgPath = parentArgPathIndex !== -1 ? parentPath.substr(parentArgPathIndex) : '/';
+                    return [
+                        4,
+                        this.mkdir({
+                            path: parentArgPath,
+                            directory: options.directory,
+                            recursive: true
+                        })
+                    ];
+                case 3:
+                    _a.sent();
+                    _a.label = 4;
+                case 4:
+                    if (occupiedEntry !== undefined) {
+                        data = occupiedEntry.content + data;
+                        ctime = occupiedEntry.ctime;
+                    }
+                    pathObj = {
+                        path: path,
+                        folder: parentPath,
+                        type: 'file',
+                        size: data.length,
+                        ctime: ctime,
+                        mtime: now,
+                        content: data
+                    };
+                    return [
+                        4,
+                        this.dbRequest('put', [pathObj])
+                    ];
+                case 5:
+                    _a.sent();
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.deleteFile = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, entry, entries;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    entry = _a.sent();
+                    if (entry === undefined)
+                        { throw Error('File does not exist.'); }
+                    return [
+                        4,
+                        this.dbIndexRequest('by_folder', 'getAllKeys', [IDBKeyRange.only(path)])
+                    ];
+                case 2:
+                    entries = _a.sent();
+                    if (entries.length !== 0)
+                        { throw Error('Folder is not empty.'); }
+                    return [
+                        4,
+                        this.dbRequest('delete', [path])
+                    ];
+                case 3:
+                    _a.sent();
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.mkdir = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, doRecursive, parentPath, depth, parentEntry, occupiedEntry, parentArgPath, now, pathObj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    doRecursive = options.recursive;
+                    parentPath = path.substr(0, path.lastIndexOf('/'));
+                    depth = (path.match(/\//g) || []).length;
+                    return [
+                        4,
+                        this.dbRequest('get', [parentPath])
+                    ];
+                case 1:
+                    parentEntry = _a.sent();
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 2:
+                    occupiedEntry = _a.sent();
+                    if (depth === 1)
+                        { throw Error('Cannot create Root directory'); }
+                    if (occupiedEntry !== undefined)
+                        { throw Error('Current directory does already exist.'); }
+                    if (!doRecursive && depth !== 2 && parentEntry === undefined)
+                        { throw Error('Parent directory must exist'); }
+                    if (!(doRecursive && depth !== 2 && parentEntry === undefined))
+                        { return [
+                            3,
+                            4
+                        ]; }
+                    parentArgPath = parentPath.substr(parentPath.indexOf('/', 1));
+                    return [
+                        4,
+                        this.mkdir({
+                            path: parentArgPath,
+                            directory: options.directory,
+                            recursive: doRecursive
+                        })
+                    ];
+                case 3:
+                    _a.sent();
+                    _a.label = 4;
+                case 4:
+                    now = Date.now();
+                    pathObj = {
+                        path: path,
+                        folder: parentPath,
+                        type: 'directory',
+                        size: 0,
+                        ctime: now,
+                        mtime: now
+                    };
+                    return [
+                        4,
+                        this.dbRequest('put', [pathObj])
+                    ];
+                case 5:
+                    _a.sent();
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.rmdir = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, directory, recursive, fullPath, entry, readDirResult, _i, _a, entry_1, entryPath, entryObj;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                case 0:
+                    path = options.path, directory = options.directory, recursive = options.recursive;
+                    fullPath = this.getPath(directory, path);
+                    return [
+                        4,
+                        this.dbRequest('get', [fullPath])
+                    ];
+                case 1:
+                    entry = _b.sent();
+                    if (entry === undefined)
+                        { throw Error('Folder does not exist.'); }
+                    if (entry.type !== 'directory')
+                        { throw Error('Requested path is not a directory'); }
+                    return [
+                        4,
+                        this.readdir({
+                            path: path,
+                            directory: directory
+                        })
+                    ];
+                case 2:
+                    readDirResult = _b.sent();
+                    if (readDirResult.files.length !== 0 && !recursive)
+                        { throw Error('Folder is not empty'); }
+                    _i = 0, _a = readDirResult.files;
+                    _b.label = 3;
+                case 3:
+                    if (!(_i < _a.length))
+                        { return [
+                            3,
+                            9
+                        ]; }
+                    entry_1 = _a[_i];
+                    entryPath = path + '/' + entry_1;
+                    return [
+                        4,
+                        this.stat({
+                            path: entryPath,
+                            directory: directory
+                        })
+                    ];
+                case 4:
+                    entryObj = _b.sent();
+                    if (!(entryObj.type === 'file'))
+                        { return [
+                            3,
+                            6
+                        ]; }
+                    return [
+                        4,
+                        this.deleteFile({
+                            path: entryPath,
+                            directory: directory
+                        })
+                    ];
+                case 5:
+                    _b.sent();
+                    return [
+                        3,
+                        8
+                    ];
+                case 6:
+                    return [
+                        4,
+                        this.rmdir({
+                            path: entryPath,
+                            directory: directory,
+                            recursive: recursive
+                        })
+                    ];
+                case 7:
+                    _b.sent();
+                    _b.label = 8;
+                case 8:
+                    _i++;
+                    return [
+                        3,
+                        3
+                    ];
+                case 9:
+                    return [
+                        4,
+                        this.dbRequest('delete', [fullPath])
+                    ];
+                case 10:
+                    _b.sent();
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.readdir = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, entry, entries, names;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    entry = _a.sent();
+                    if (options.path !== '' && entry === undefined)
+                        { throw Error('Folder does not exist.'); }
+                    return [
+                        4,
+                        this.dbIndexRequest('by_folder', 'getAllKeys', [IDBKeyRange.only(path)])
+                    ];
+                case 2:
+                    entries = _a.sent();
+                    names = entries.map(function (e) {
+                        return e.substring(path.length + 1);
+                    });
+                    return [
+                        2,
+                        { files: names }
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.getUri = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, entry;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    entry = _a.sent();
+                    if (!(entry === undefined))
+                        { return [
+                            3,
+                            3
+                        ]; }
+                    return [
+                        4,
+                        this.dbRequest('get', [path + '/'])
+                    ];
+                case 2:
+                    entry = _a.sent();
+                    _a.label = 3;
+                case 3:
+                    if (entry === undefined)
+                        { throw Error('Entry does not exist.'); }
+                    return [
+                        2,
+                        { uri: entry.path }
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.stat = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, entry;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    path = this.getPath(options.directory, options.path);
+                    return [
+                        4,
+                        this.dbRequest('get', [path])
+                    ];
+                case 1:
+                    entry = _a.sent();
+                    if (!(entry === undefined))
+                        { return [
+                            3,
+                            3
+                        ]; }
+                    return [
+                        4,
+                        this.dbRequest('get', [path + '/'])
+                    ];
+                case 2:
+                    entry = _a.sent();
+                    _a.label = 3;
+                case 3:
+                    if (entry === undefined)
+                        { throw Error('Entry does not exist.'); }
+                    return [
+                        2,
+                        {
+                            type: entry.type,
+                            size: entry.size,
+                            ctime: entry.ctime,
+                            mtime: entry.mtime,
+                            uri: entry.path
+                        }
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.rename = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    this._copy(options, true)
+                ];
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype.copy = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    this._copy(options, false)
+                ];
+            });
+        });
+    };
+    FilesystemPluginWeb.prototype._copy = function (options, doRename) {
+        if (doRename === void 0) {
+            doRename = false;
+        }
+        return __awaiter(this, void 0, void 0, function () {
+            var to, from, fromDirectory, toDirectory, fromPath, toPath, toObj, e_1, toPathComponents, toPath_1, toParentDirectory, fromObj, updateTime, _a, file, e_2, contents, _i, contents_1, filename;
+            var _this = this;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                case 0:
+                    to = options.to, from = options.from, fromDirectory = options.directory, toDirectory = options.toDirectory;
+                    if (!to || !from) {
+                        throw Error('Both to and from must be provided');
+                    }
+                    if (!toDirectory) {
+                        toDirectory = fromDirectory;
+                    }
+                    fromPath = this.getPath(fromDirectory, from);
+                    toPath = this.getPath(toDirectory, to);
+                    if (fromPath === toPath) {
+                        return [
+                            2,
+                            {}
+                        ];
+                    }
+                    if (toPath.startsWith(fromPath)) {
+                        throw Error('To path cannot contain the from path');
+                    }
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([
+                        1,
+                        3,
+                        ,
+                        6
+                    ]);
+                    return [
+                        4,
+                        this.stat({
+                            path: to,
+                            directory: toDirectory
+                        })
+                    ];
+                case 2:
+                    toObj = _b.sent();
+                    return [
+                        3,
+                        6
+                    ];
+                case 3:
+                    e_1 = _b.sent();
+                    toPathComponents = to.split('/');
+                    toPathComponents.pop();
+                    toPath_1 = toPathComponents.join('/');
+                    if (!(toPathComponents.length > 0))
+                        { return [
+                            3,
+                            5
+                        ]; }
+                    return [
+                        4,
+                        this.stat({
+                            path: toPath_1,
+                            directory: toDirectory
+                        })
+                    ];
+                case 4:
+                    toParentDirectory = _b.sent();
+                    if (toParentDirectory.type !== 'directory') {
+                        throw new Error('Parent directory of the to path is a file');
+                    }
+                    _b.label = 5;
+                case 5:
+                    return [
+                        3,
+                        6
+                    ];
+                case 6:
+                    if (toObj && toObj.type === 'directory') {
+                        throw new Error('Cannot overwrite a directory with a file');
+                    }
+                    return [
+                        4,
+                        this.stat({
+                            path: from,
+                            directory: fromDirectory
+                        })
+                    ];
+                case 7:
+                    fromObj = _b.sent();
+                    updateTime = function (path, ctime, mtime) {
+                        return __awaiter(_this, void 0, void 0, function () {
+                            var fullPath, entry;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                case 0:
+                                    fullPath = this.getPath(toDirectory, path);
+                                    return [
+                                        4,
+                                        this.dbRequest('get', [fullPath])
+                                    ];
+                                case 1:
+                                    entry = _a.sent();
+                                    entry.ctime = ctime;
+                                    entry.mtime = mtime;
+                                    return [
+                                        4,
+                                        this.dbRequest('put', [entry])
+                                    ];
+                                case 2:
+                                    _a.sent();
+                                    return [2];
+                                }
+                            });
+                        });
+                    };
+                    _a = fromObj.type;
+                    switch (_a) {
+                    case 'file':
+                        return [
+                            3,
+                            8
+                        ];
+                    case 'directory':
+                        return [
+                            3,
+                            15
+                        ];
+                    }
+                    return [
+                        3,
+                        28
+                    ];
+                case 8:
+                    return [
+                        4,
+                        this.readFile({
+                            path: from,
+                            directory: fromDirectory
+                        })
+                    ];
+                case 9:
+                    file = _b.sent();
+                    if (!doRename)
+                        { return [
+                            3,
+                            11
+                        ]; }
+                    return [
+                        4,
+                        this.deleteFile({
+                            path: from,
+                            directory: fromDirectory
+                        })
+                    ];
+                case 10:
+                    _b.sent();
+                    _b.label = 11;
+                case 11:
+                    return [
+                        4,
+                        this.writeFile({
+                            path: to,
+                            directory: toDirectory,
+                            data: file.data
+                        })
+                    ];
+                case 12:
+                    _b.sent();
+                    if (!doRename)
+                        { return [
+                            3,
+                            14
+                        ]; }
+                    return [
+                        4,
+                        updateTime(to, fromObj.ctime, fromObj.mtime)
+                    ];
+                case 13:
+                    _b.sent();
+                    _b.label = 14;
+                case 14:
+                    return [
+                        2,
+                        {}
+                    ];
+                case 15:
+                    if (toObj) {
+                        throw Error('Cannot move a directory over an existing object');
+                    }
+                    _b.label = 16;
+                case 16:
+                    _b.trys.push([
+                        16,
+                        20,
+                        ,
+                        21
+                    ]);
+                    return [
+                        4,
+                        this.mkdir({
+                            path: to,
+                            directory: toDirectory,
+                            recursive: false
+                        })
+                    ];
+                case 17:
+                    _b.sent();
+                    if (!doRename)
+                        { return [
+                            3,
+                            19
+                        ]; }
+                    return [
+                        4,
+                        updateTime(to, fromObj.ctime, fromObj.mtime)
+                    ];
+                case 18:
+                    _b.sent();
+                    _b.label = 19;
+                case 19:
+                    return [
+                        3,
+                        21
+                    ];
+                case 20:
+                    e_2 = _b.sent();
+                    return [
+                        3,
+                        21
+                    ];
+                case 21:
+                    return [
+                        4,
+                        this.readdir({
+                            path: from,
+                            directory: fromDirectory
+                        })
+                    ];
+                case 22:
+                    contents = _b.sent().files;
+                    _i = 0, contents_1 = contents;
+                    _b.label = 23;
+                case 23:
+                    if (!(_i < contents_1.length))
+                        { return [
+                            3,
+                            26
+                        ]; }
+                    filename = contents_1[_i];
+                    return [
+                        4,
+                        this._copy({
+                            from: from + '/' + filename,
+                            to: to + '/' + filename,
+                            directory: fromDirectory,
+                            toDirectory: toDirectory
+                        }, doRename)
+                    ];
+                case 24:
+                    _b.sent();
+                    _b.label = 25;
+                case 25:
+                    _i++;
+                    return [
+                        3,
+                        23
+                    ];
+                case 26:
+                    if (!doRename)
+                        { return [
+                            3,
+                            28
+                        ]; }
+                    return [
+                        4,
+                        this.rmdir({
+                            path: from,
+                            directory: fromDirectory
+                        })
+                    ];
+                case 27:
+                    _b.sent();
+                    _b.label = 28;
+                case 28:
+                    return [
+                        2,
+                        {}
+                    ];
+                }
+            });
+        });
+    };
+    FilesystemPluginWeb._debug = true;
+    return FilesystemPluginWeb;
+}(WebPlugin);
+var Filesystem = new FilesystemPluginWeb();
+
+var extend$2 = function (target) {
+    var arguments$1 = arguments;
+
+    var objs = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        objs[_i - 1] = arguments$1[_i];
+    }
+    objs.forEach(function (o) {
+        if (o && typeof o === 'object') {
+            for (var k in o) {
+                if (o.hasOwnProperty(k)) {
+                    target[k] = o[k];
+                }
+            }
+        }
+    });
+    return target;
+};
+var uuid4 = function () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : r & 3 | 8;
+        return v.toString(16);
+    });
+};
+
+var GeolocationPluginWeb = function (_super) {
+    __extends(GeolocationPluginWeb, _super);
+    function GeolocationPluginWeb() {
+        return _super.call(this, {
+            name: 'Geolocation',
+            platforms: ['web']
+        }) || this;
+    }
+    GeolocationPluginWeb.prototype.getCurrentPosition = function (options) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            return _this.requestPermissions().then(function (_result) {
+                window.navigator.geolocation.getCurrentPosition(function (pos) {
+                    resolve(pos);
+                }, function (err) {
+                    reject(err);
+                }, extend$2({
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }, options));
+            });
+        });
+    };
+    GeolocationPluginWeb.prototype.watchPosition = function (options, callback) {
+        var id = window.navigator.geolocation.watchPosition(function (pos) {
+            callback(pos);
+        }, function (err) {
+            callback(null, err);
+        }, extend$2({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }, options));
+        return '' + id;
+    };
+    GeolocationPluginWeb.prototype.clearWatch = function (options) {
+        window.navigator.geolocation.clearWatch(parseInt(options.id, 10));
+        return Promise.resolve();
+    };
+    return GeolocationPluginWeb;
+}(WebPlugin);
+var Geolocation = new GeolocationPluginWeb();
+
+var DevicePluginWeb = function (_super) {
+    __extends(DevicePluginWeb, _super);
+    function DevicePluginWeb() {
+        return _super.call(this, {
+            name: 'Device',
+            platforms: ['web']
+        }) || this;
+    }
+    DevicePluginWeb.prototype.getInfo = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var ua, uaFields;
+            return __generator(this, function (_a) {
+                ua = navigator.userAgent;
+                uaFields = this.parseUa(ua);
+                return [
+                    2,
+                    Promise.resolve({
+                        model: uaFields.model,
+                        platform: 'web',
+                        appVersion: '',
+                        appBuild: '',
+                        appId: '',
+                        appName: '',
+                        operatingSystem: uaFields.operatingSystem,
+                        osVersion: uaFields.osVersion,
+                        manufacturer: navigator.vendor,
+                        isVirtual: false,
+                        uuid: this.getUid()
+                    })
+                ];
+            });
+        });
+    };
+    DevicePluginWeb.prototype.getBatteryInfo = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var battery, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    battery = {};
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([
+                        1,
+                        3,
+                        ,
+                        4
+                    ]);
+                    return [
+                        4,
+                        navigator.getBattery()
+                    ];
+                case 2:
+                    battery = _a.sent();
+                    return [
+                        3,
+                        4
+                    ];
+                case 3:
+                    e_1 = _a.sent();
+                    return [
+                        3,
+                        4
+                    ];
+                case 4:
+                    return [
+                        2,
+                        Promise.resolve({
+                            batteryLevel: battery.level,
+                            isCharging: battery.charging
+                        })
+                    ];
+                }
+            });
+        });
+    };
+    DevicePluginWeb.prototype.getLanguageCode = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    { value: navigator.language }
+                ];
+            });
+        });
+    };
+    DevicePluginWeb.prototype.parseUa = function (_ua) {
+        var uaFields = {};
+        var start = _ua.indexOf('(') + 1;
+        var end = _ua.indexOf(') AppleWebKit');
+        if (_ua.indexOf(') Gecko') !== -1) {
+            end = _ua.indexOf(') Gecko');
+        }
+        var fields = _ua.substring(start, end);
+        if (_ua.indexOf('Android') !== -1) {
+            uaFields.model = fields.replace('; wv', '').split('; ').pop().split(' Build')[0];
+            uaFields.osVersion = fields.split('; ')[1];
+        } else {
+            uaFields.model = fields.split('; ')[0];
+            if (navigator.oscpu) {
+                uaFields.osVersion = navigator.oscpu;
+            } else {
+                if (_ua.indexOf('Windows') !== -1) {
+                    uaFields.osVersion = fields;
+                } else {
+                    var lastParts = fields.split('; ').pop().replace(' like Mac OS X', '').split(' ');
+                    uaFields.osVersion = lastParts[lastParts.length - 1].replace(/_/g, '.');
+                }
+            }
+        }
+        if (/android/i.test(_ua)) {
+            uaFields.operatingSystem = 'android';
+        } else if (/iPad|iPhone|iPod/.test(_ua) && !window.MSStream) {
+            uaFields.operatingSystem = 'ios';
+        } else if (/Win/.test(_ua)) {
+            uaFields.operatingSystem = 'windows';
+        } else if (/Mac/i.test(_ua)) {
+            uaFields.operatingSystem = 'mac';
+        } else {
+            uaFields.operatingSystem = 'unknown';
+        }
+        return uaFields;
+    };
+    DevicePluginWeb.prototype.getUid = function () {
+        var uid = window.localStorage.getItem('_capuid');
+        if (uid) {
+            return uid;
+        }
+        uid = uuid4();
+        window.localStorage.setItem('_capuid', uid);
+        return uid;
+    };
+    return DevicePluginWeb;
+}(WebPlugin);
+var Device = new DevicePluginWeb();
+
+var LocalNotificationsPluginWeb = function (_super) {
+    __extends(LocalNotificationsPluginWeb, _super);
+    function LocalNotificationsPluginWeb() {
+        var _this = _super.call(this, {
+            name: 'LocalNotifications',
+            platforms: ['web']
+        }) || this;
+        _this.pending = [];
+        return _this;
+    }
+    LocalNotificationsPluginWeb.prototype.createChannel = function (channel) {
+        throw new Error('Feature not available in the browser. ' + channel.id);
+    };
+    LocalNotificationsPluginWeb.prototype.deleteChannel = function (channel) {
+        throw new Error('Feature not available in the browser. ' + channel.id);
+    };
+    LocalNotificationsPluginWeb.prototype.listChannels = function () {
+        throw new Error('Feature not available in the browser');
+    };
+    LocalNotificationsPluginWeb.prototype.sendPending = function () {
+        var _this = this;
+        var toRemove = [];
+        var now = +new Date();
+        this.pending.forEach(function (localNotification) {
+            if (localNotification.schedule && localNotification.schedule.at) {
+                if (+localNotification.schedule.at <= now) {
+                    _this.buildNotification(localNotification);
+                    toRemove.push(localNotification);
+                }
+            }
+        });
+        console.log('Sent pending, removing', toRemove);
+        this.pending = this.pending.filter(function (localNotification) {
+            return !toRemove.find(function (ln) {
+                return ln === localNotification;
+            });
+        });
+    };
+    LocalNotificationsPluginWeb.prototype.sendNotification = function (localNotification) {
+        var _this = this;
+        var l = localNotification;
+        if (localNotification.schedule && localNotification.schedule.at) {
+            var diff = +localNotification.schedule.at - +new Date();
+            this.pending.push(l);
+            setTimeout(function () {
+                _this.sendPending();
+            }, diff);
+            return;
+        }
+        this.buildNotification(localNotification);
+    };
+    LocalNotificationsPluginWeb.prototype.buildNotification = function (localNotification) {
+        var l = localNotification;
+        return new Notification(l.title, { body: l.body });
+    };
+    LocalNotificationsPluginWeb.prototype.schedule = function (options) {
+        var _this = this;
+        var notifications = [];
+        options.notifications.forEach(function (notification) {
+            notifications.push(_this.sendNotification(notification));
+        });
+        return Promise.resolve({
+            notifications: options.notifications.map(function (notification) {
+                return { id: '' + notification.id };
+            })
+        });
+    };
+    LocalNotificationsPluginWeb.prototype.getPending = function () {
+        return Promise.resolve({
+            notifications: this.pending.map(function (localNotification) {
+                return { id: '' + localNotification.id };
+            })
+        });
+    };
+    LocalNotificationsPluginWeb.prototype.registerActionTypes = function (_options) {
+        throw new Error('Method not implemented.');
+    };
+    LocalNotificationsPluginWeb.prototype.cancel = function (pending) {
+        console.log('Cancel these', pending);
+        this.pending = this.pending.filter(function (localNotification) {
+            return !pending.notifications.find(function (ln) {
+                return ln.id === '' + localNotification.id;
+            });
+        });
+        return Promise.resolve();
+    };
+    LocalNotificationsPluginWeb.prototype.areEnabled = function () {
+        return Promise.resolve({ value: Notification.permission === 'granted' });
+    };
+    LocalNotificationsPluginWeb.prototype.requestPermission = function () {
+        return new Promise(function (resolve) {
+            Notification.requestPermission(function (result) {
+                var granted = true;
+                if (result === 'denied' || result === 'default') {
+                    granted = false;
+                }
+                resolve({ granted: granted });
+            });
+        });
+    };
+    LocalNotificationsPluginWeb.prototype.requestPermissions = function () {
+        return new Promise(function (resolve, reject) {
+            Notification.requestPermission(function (result) {
+                if (result === 'denied' || result === 'default') {
+                    reject(result);
+                    return;
+                }
+                resolve({ results: [result] });
+            });
+        });
+    };
+    return LocalNotificationsPluginWeb;
+}(WebPlugin);
+var LocalNotifications = new LocalNotificationsPluginWeb();
+
+var SharePluginWeb = function (_super) {
+    __extends(SharePluginWeb, _super);
+    function SharePluginWeb() {
+        return _super.call(this, {
+            name: 'Share',
+            platforms: ['web']
+        }) || this;
+    }
+    SharePluginWeb.prototype.share = function (options) {
+        if (!navigator.share) {
+            return Promise.reject('Web Share API not available');
+        }
+        return navigator.share({
+            title: options.title,
+            text: options.text,
+            url: options.url
+        });
+    };
+    return SharePluginWeb;
+}(WebPlugin);
+var Share = new SharePluginWeb();
+
+var ModalsPluginWeb = function (_super) {
+    __extends(ModalsPluginWeb, _super);
+    function ModalsPluginWeb() {
+        return _super.call(this, {
+            name: 'Modals',
+            platforms: ['web']
+        }) || this;
+    }
+    ModalsPluginWeb.prototype.alert = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                window.alert(options.message);
+                return [
+                    2,
+                    Promise.resolve()
+                ];
+            });
+        });
+    };
+    ModalsPluginWeb.prototype.prompt = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var val;
+            return __generator(this, function (_a) {
+                val = window.prompt(options.message, options.inputText || '');
+                return [
+                    2,
+                    Promise.resolve({
+                        value: val,
+                        cancelled: val === null
+                    })
+                ];
+            });
+        });
+    };
+    ModalsPluginWeb.prototype.confirm = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var val;
+            return __generator(this, function (_a) {
+                val = window.confirm(options.message);
+                return [
+                    2,
+                    Promise.resolve({ value: val })
+                ];
+            });
+        });
+    };
+    ModalsPluginWeb.prototype.showActions = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [
+                    2,
+                    new Promise(function (resolve, _reject) {
+                        return __awaiter(_this, void 0, void 0, function () {
+                            var actionSheet;
+                            var _this = this;
+                            return __generator(this, function (_a) {
+                                actionSheet = document.querySelector('pwa-action-sheet');
+                                if (!actionSheet) {
+                                    actionSheet = document.createElement('pwa-action-sheet');
+                                    document.body.appendChild(actionSheet);
+                                }
+                                actionSheet.header = options.title;
+                                actionSheet.cancelable = false;
+                                actionSheet.options = options.options;
+                                actionSheet.addEventListener('onSelection', function (e) {
+                                    return __awaiter(_this, void 0, void 0, function () {
+                                        var selection;
+                                        return __generator(this, function (_a) {
+                                            selection = e.detail;
+                                            resolve({ index: selection });
+                                            return [2];
+                                        });
+                                    });
+                                });
+                                return [2];
+                            });
+                        });
+                    })
+                ];
+            });
+        });
+    };
+    return ModalsPluginWeb;
+}(WebPlugin);
+var Modals = new ModalsPluginWeb();
+
+var MotionPluginWeb = function (_super) {
+    __extends(MotionPluginWeb, _super);
+    function MotionPluginWeb() {
+        var _this = _super.call(this, { name: 'Motion' }) || this;
+        _this.registerWindowListener('devicemotion', 'accel');
+        _this.registerWindowListener('deviceorientation', 'orientation');
+        return _this;
+    }
+    return MotionPluginWeb;
+}(WebPlugin);
+var Motion = new MotionPluginWeb();
+
+var NetworkPluginWeb = function (_super) {
+    __extends(NetworkPluginWeb, _super);
+    function NetworkPluginWeb() {
+        var _this = _super.call(this, {
+            name: 'Network',
+            platforms: ['web']
+        }) || this;
+        _this.listenerFunction = null;
+        return _this;
+    }
+    NetworkPluginWeb.prototype.getStatus = function () {
+        return new Promise(function (resolve, reject) {
+            if (!window.navigator) {
+                reject('Network info not available');
+                return;
+            }
+            var connected = window.navigator.onLine;
+            var connection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
+            var connectionType = connection ? connection.type || connection.effectiveType : 'wifi';
+            resolve({
+                connected: connected,
+                connectionType: connected ? connectionType : 'none'
+            });
+        });
+    };
+    NetworkPluginWeb.prototype.addListener = function (eventName, listenerFunc) {
+        var thisRef = this;
+        var connection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
+        var connectionType = connection ? connection.type || connection.effectiveType : 'wifi';
+        var onlineBindFunc = listenerFunc.bind(thisRef, {
+            connected: true,
+            connectionType: connectionType
+        });
+        var offlineBindFunc = listenerFunc.bind(thisRef, {
+            connected: false,
+            connectionType: 'none'
+        });
+        if (eventName.localeCompare('networkStatusChange') === 0) {
+            window.addEventListener('online', onlineBindFunc);
+            window.addEventListener('offline', offlineBindFunc);
+            return {
+                remove: function () {
+                    window.removeEventListener('online', onlineBindFunc);
+                    window.removeEventListener('offline', offlineBindFunc);
+                }
+            };
+        }
+    };
+    return NetworkPluginWeb;
+}(WebPlugin);
+var Network = new NetworkPluginWeb();
+
+var PermissionsPluginWeb = function (_super) {
+    __extends(PermissionsPluginWeb, _super);
+    function PermissionsPluginWeb() {
+        return _super.call(this, { name: 'Permissions' }) || this;
+    }
+    PermissionsPluginWeb.prototype.query = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var navigator, name, ret;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                case 0:
+                    navigator = window.navigator;
+                    if (!navigator.permissions) {
+                        return [
+                            2,
+                            Promise.reject('This browser does not support the Permissions API')
+                        ];
+                    }
+                    name = options.name === PermissionType.Photos ? 'camera' : options.name;
+                    return [
+                        4,
+                        navigator.permissions.query({ name: name })
+                    ];
+                case 1:
+                    ret = _a.sent();
+                    return [
+                        2,
+                        { state: ret.state }
+                    ];
+                }
+            });
+        });
+    };
+    return PermissionsPluginWeb;
+}(WebPlugin);
+var Permissions = new PermissionsPluginWeb();
+
+var SplashScreenPluginWeb = function (_super) {
+    __extends(SplashScreenPluginWeb, _super);
+    function SplashScreenPluginWeb() {
+        return _super.call(this, {
+            name: 'SplashScreen',
+            platforms: ['web']
+        }) || this;
+    }
+    SplashScreenPluginWeb.prototype.show = function (_options, _callback) {
+        return Promise.resolve();
+    };
+    SplashScreenPluginWeb.prototype.hide = function (_options, _callback) {
+        return Promise.resolve();
+    };
+    return SplashScreenPluginWeb;
+}(WebPlugin);
+var SplashScreen = new SplashScreenPluginWeb();
+
+var StoragePluginWeb = function (_super) {
+    __extends(StoragePluginWeb, _super);
+    function StoragePluginWeb() {
+        var _this = _super.call(this, {
+            name: 'Storage',
+            platforms: ['web']
+        }) || this;
+        _this.KEY_PREFIX = '_cap_';
+        return _this;
+    }
+    StoragePluginWeb.prototype.get = function (options) {
+        var _this = this;
+        return new Promise(function (resolve, _reject) {
+            resolve({ value: window.localStorage.getItem(_this.makeKey(options.key)) });
+        });
+    };
+    StoragePluginWeb.prototype.set = function (options) {
+        var _this = this;
+        return new Promise(function (resolve, _reject) {
+            window.localStorage.setItem(_this.makeKey(options.key), options.value);
+            resolve();
+        });
+    };
+    StoragePluginWeb.prototype.remove = function (options) {
+        var _this = this;
+        return new Promise(function (resolve, _reject) {
+            window.localStorage.removeItem(_this.makeKey(options.key));
+            resolve();
+        });
+    };
+    StoragePluginWeb.prototype.keys = function () {
+        var _this = this;
+        return new Promise(function (resolve, _reject) {
+            resolve({
+                keys: Object.keys(localStorage).filter(function (k) {
+                    return _this.isKey(k);
+                }).map(function (k) {
+                    return _this.getKey(k);
+                })
+            });
+        });
+    };
+    StoragePluginWeb.prototype.clear = function () {
+        var _this = this;
+        return new Promise(function (resolve, _reject) {
+            Object.keys(localStorage).filter(function (k) {
+                return _this.isKey(k);
+            }).forEach(function (k) {
+                return window.localStorage.removeItem(k);
+            });
+            resolve();
+        });
+    };
+    StoragePluginWeb.prototype.makeKey = function (key) {
+        return this.KEY_PREFIX + key;
+    };
+    StoragePluginWeb.prototype.isKey = function (key) {
+        return key.indexOf(this.KEY_PREFIX) === 0;
+    };
+    StoragePluginWeb.prototype.getKey = function (key) {
+        return key.substr(this.KEY_PREFIX.length);
+    };
+    return StoragePluginWeb;
+}(WebPlugin);
+var Storage = new StoragePluginWeb();
+
+var ToastPluginWeb = function (_super) {
+    __extends(ToastPluginWeb, _super);
+    function ToastPluginWeb() {
+        return _super.call(this, {
+            name: 'Toast',
+            platforms: ['web']
+        }) || this;
+    }
+    ToastPluginWeb.prototype.show = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var duration, toast;
+            return __generator(this, function (_a) {
+                duration = 2000;
+                if (options.duration) {
+                    duration = options.duration === 'long' ? 3500 : 2000;
+                }
+                toast = document.createElement('pwa-toast');
+                toast.duration = duration;
+                toast.message = options.text;
+                document.body.appendChild(toast);
+                return [2];
+            });
+        });
+    };
+    return ToastPluginWeb;
+}(WebPlugin);
+var Toast = new ToastPluginWeb();
+
+mergeWebPlugins(Plugins);
+
 var Database = function Database () {};
 
 Database.openDatabase = function openDatabase (dbLocation) {
@@ -17581,7 +20142,7 @@ exports.EvaluationParameters = EvaluationParameters;
 exports.webpSupported = exported$1;
 exports.version = version;
 exports.setRTLTextPlugin = setRTLTextPlugin;
-exports.Database = Database;
+exports.Plugins = Plugins;
 exports.RasterTileSourceOffline = RasterTileSourceOffline;
 exports.values = values;
 exports.featureFilter = createFilter;
@@ -37097,22 +39658,6 @@ var common_4 = common.Buf8;
 var common_5 = common.Buf16;
 var common_6 = common.Buf32;
 
-function adler32(adler, buf, len, pos) {
-    var s1 = adler & 65535 | 0, s2 = adler >>> 16 & 65535 | 0, n = 0;
-    while (len !== 0) {
-        n = len > 2000 ? 2000 : len;
-        len -= n;
-        do {
-            s1 = s1 + buf[pos++] | 0;
-            s2 = s2 + s1 | 0;
-        } while (--n);
-        s1 %= 65521;
-        s2 %= 65521;
-    }
-    return s1 | s2 << 16 | 0;
-}
-var adler32_1 = adler32;
-
 function makeTable() {
     var c, table = [];
     for (var n = 0; n < 256; n++) {
@@ -37125,2146 +39670,23 @@ function makeTable() {
     return table;
 }
 var crcTable = makeTable();
-function crc32(crc, buf, len, pos) {
-    var t = crcTable, end = pos + len;
-    crc ^= -1;
-    for (var i = pos; i < end; i++) {
-        crc = crc >>> 8 ^ t[(crc ^ buf[i]) & 255];
-    }
-    return crc ^ -1;
-}
-var crc32_1 = crc32;
 
-var BAD = 30;
-var TYPE = 12;
-var inffast = function inflate_fast(strm, start) {
-    var state;
-    var _in;
-    var last;
-    var _out;
-    var beg;
-    var end;
-    var dmax;
-    var wsize;
-    var whave;
-    var wnext;
-    var s_window;
-    var hold;
-    var bits;
-    var lcode;
-    var dcode;
-    var lmask;
-    var dmask;
-    var here;
-    var op;
-    var len;
-    var dist;
-    var from;
-    var from_source;
-    var input, output;
-    state = strm.state;
-    _in = strm.next_in;
-    input = strm.input;
-    last = _in + (strm.avail_in - 5);
-    _out = strm.next_out;
-    output = strm.output;
-    beg = _out - (start - strm.avail_out);
-    end = _out + (strm.avail_out - 257);
-    dmax = state.dmax;
-    wsize = state.wsize;
-    whave = state.whave;
-    wnext = state.wnext;
-    s_window = state.window;
-    hold = state.hold;
-    bits = state.bits;
-    lcode = state.lencode;
-    dcode = state.distcode;
-    lmask = (1 << state.lenbits) - 1;
-    dmask = (1 << state.distbits) - 1;
-    top:
-        do {
-            if (bits < 15) {
-                hold += input[_in++] << bits;
-                bits += 8;
-                hold += input[_in++] << bits;
-                bits += 8;
-            }
-            here = lcode[hold & lmask];
-            dolen:
-                for (;;) {
-                    op = here >>> 24;
-                    hold >>>= op;
-                    bits -= op;
-                    op = here >>> 16 & 255;
-                    if (op === 0) {
-                        output[_out++] = here & 65535;
-                    } else if (op & 16) {
-                        len = here & 65535;
-                        op &= 15;
-                        if (op) {
-                            if (bits < op) {
-                                hold += input[_in++] << bits;
-                                bits += 8;
-                            }
-                            len += hold & (1 << op) - 1;
-                            hold >>>= op;
-                            bits -= op;
-                        }
-                        if (bits < 15) {
-                            hold += input[_in++] << bits;
-                            bits += 8;
-                            hold += input[_in++] << bits;
-                            bits += 8;
-                        }
-                        here = dcode[hold & dmask];
-                        dodist:
-                            for (;;) {
-                                op = here >>> 24;
-                                hold >>>= op;
-                                bits -= op;
-                                op = here >>> 16 & 255;
-                                if (op & 16) {
-                                    dist = here & 65535;
-                                    op &= 15;
-                                    if (bits < op) {
-                                        hold += input[_in++] << bits;
-                                        bits += 8;
-                                        if (bits < op) {
-                                            hold += input[_in++] << bits;
-                                            bits += 8;
-                                        }
-                                    }
-                                    dist += hold & (1 << op) - 1;
-                                    if (dist > dmax) {
-                                        strm.msg = 'invalid distance too far back';
-                                        state.mode = BAD;
-                                        break top;
-                                    }
-                                    hold >>>= op;
-                                    bits -= op;
-                                    op = _out - beg;
-                                    if (dist > op) {
-                                        op = dist - op;
-                                        if (op > whave) {
-                                            if (state.sane) {
-                                                strm.msg = 'invalid distance too far back';
-                                                state.mode = BAD;
-                                                break top;
-                                            }
-                                        }
-                                        from = 0;
-                                        from_source = s_window;
-                                        if (wnext === 0) {
-                                            from += wsize - op;
-                                            if (op < len) {
-                                                len -= op;
-                                                do {
-                                                    output[_out++] = s_window[from++];
-                                                } while (--op);
-                                                from = _out - dist;
-                                                from_source = output;
-                                            }
-                                        } else if (wnext < op) {
-                                            from += wsize + wnext - op;
-                                            op -= wnext;
-                                            if (op < len) {
-                                                len -= op;
-                                                do {
-                                                    output[_out++] = s_window[from++];
-                                                } while (--op);
-                                                from = 0;
-                                                if (wnext < len) {
-                                                    op = wnext;
-                                                    len -= op;
-                                                    do {
-                                                        output[_out++] = s_window[from++];
-                                                    } while (--op);
-                                                    from = _out - dist;
-                                                    from_source = output;
-                                                }
-                                            }
-                                        } else {
-                                            from += wnext - op;
-                                            if (op < len) {
-                                                len -= op;
-                                                do {
-                                                    output[_out++] = s_window[from++];
-                                                } while (--op);
-                                                from = _out - dist;
-                                                from_source = output;
-                                            }
-                                        }
-                                        while (len > 2) {
-                                            output[_out++] = from_source[from++];
-                                            output[_out++] = from_source[from++];
-                                            output[_out++] = from_source[from++];
-                                            len -= 3;
-                                        }
-                                        if (len) {
-                                            output[_out++] = from_source[from++];
-                                            if (len > 1) {
-                                                output[_out++] = from_source[from++];
-                                            }
-                                        }
-                                    } else {
-                                        from = _out - dist;
-                                        do {
-                                            output[_out++] = output[from++];
-                                            output[_out++] = output[from++];
-                                            output[_out++] = output[from++];
-                                            len -= 3;
-                                        } while (len > 2);
-                                        if (len) {
-                                            output[_out++] = output[from++];
-                                            if (len > 1) {
-                                                output[_out++] = output[from++];
-                                            }
-                                        }
-                                    }
-                                } else if ((op & 64) === 0) {
-                                    here = dcode[(here & 65535) + (hold & (1 << op) - 1)];
-                                    continue dodist;
-                                } else {
-                                    strm.msg = 'invalid distance code';
-                                    state.mode = BAD;
-                                    break top;
-                                }
-                                break;
-                            }
-                    } else if ((op & 64) === 0) {
-                        here = lcode[(here & 65535) + (hold & (1 << op) - 1)];
-                        continue dolen;
-                    } else if (op & 32) {
-                        state.mode = TYPE;
-                        break top;
-                    } else {
-                        strm.msg = 'invalid literal/length code';
-                        state.mode = BAD;
-                        break top;
-                    }
-                    break;
-                }
-        } while (_in < last && _out < end);
-    len = bits >> 3;
-    _in -= len;
-    bits -= len << 3;
-    hold &= (1 << bits) - 1;
-    strm.next_in = _in;
-    strm.next_out = _out;
-    strm.avail_in = _in < last ? 5 + (last - _in) : 5 - (_in - last);
-    strm.avail_out = _out < end ? 257 + (end - _out) : 257 - (_out - end);
-    state.hold = hold;
-    state.bits = bits;
-    return;
-};
-
-var MAXBITS = 15;
-var ENOUGH_LENS = 852;
-var ENOUGH_DISTS = 592;
-var CODES = 0;
-var LENS = 1;
-var DISTS = 2;
-var lbase = [
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    13,
-    15,
-    17,
-    19,
-    23,
-    27,
-    31,
-    35,
-    43,
-    51,
-    59,
-    67,
-    83,
-    99,
-    115,
-    131,
-    163,
-    195,
-    227,
-    258,
-    0,
-    0
-];
-var lext = [
-    16,
-    16,
-    16,
-    16,
-    16,
-    16,
-    16,
-    16,
-    17,
-    17,
-    17,
-    17,
-    18,
-    18,
-    18,
-    18,
-    19,
-    19,
-    19,
-    19,
-    20,
-    20,
-    20,
-    20,
-    21,
-    21,
-    21,
-    21,
-    16,
-    72,
-    78
-];
-var dbase = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    7,
-    9,
-    13,
-    17,
-    25,
-    33,
-    49,
-    65,
-    97,
-    129,
-    193,
-    257,
-    385,
-    513,
-    769,
-    1025,
-    1537,
-    2049,
-    3073,
-    4097,
-    6145,
-    8193,
-    12289,
-    16385,
-    24577,
-    0,
-    0
-];
-var dext = [
-    16,
-    16,
-    16,
-    16,
-    17,
-    17,
-    18,
-    18,
-    19,
-    19,
-    20,
-    20,
-    21,
-    21,
-    22,
-    22,
-    23,
-    23,
-    24,
-    24,
-    25,
-    25,
-    26,
-    26,
-    27,
-    27,
-    28,
-    28,
-    29,
-    29,
-    64,
-    64
-];
-var inftrees = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts) {
-    var bits = opts.bits;
-    var len = 0;
-    var sym = 0;
-    var min = 0, max = 0;
-    var root = 0;
-    var curr = 0;
-    var drop = 0;
-    var left = 0;
-    var used = 0;
-    var huff = 0;
-    var incr;
-    var fill;
-    var low;
-    var mask;
-    var next;
-    var base = null;
-    var base_index = 0;
-    var end;
-    var count = new common.Buf16(MAXBITS + 1);
-    var offs = new common.Buf16(MAXBITS + 1);
-    var extra = null;
-    var extra_index = 0;
-    var here_bits, here_op, here_val;
-    for (len = 0; len <= MAXBITS; len++) {
-        count[len] = 0;
-    }
-    for (sym = 0; sym < codes; sym++) {
-        count[lens[lens_index + sym]]++;
-    }
-    root = bits;
-    for (max = MAXBITS; max >= 1; max--) {
-        if (count[max] !== 0) {
-            break;
-        }
-    }
-    if (root > max) {
-        root = max;
-    }
-    if (max === 0) {
-        table[table_index++] = 1 << 24 | 64 << 16 | 0;
-        table[table_index++] = 1 << 24 | 64 << 16 | 0;
-        opts.bits = 1;
-        return 0;
-    }
-    for (min = 1; min < max; min++) {
-        if (count[min] !== 0) {
-            break;
-        }
-    }
-    if (root < min) {
-        root = min;
-    }
-    left = 1;
-    for (len = 1; len <= MAXBITS; len++) {
-        left <<= 1;
-        left -= count[len];
-        if (left < 0) {
-            return -1;
-        }
-    }
-    if (left > 0 && (type === CODES || max !== 1)) {
-        return -1;
-    }
-    offs[1] = 0;
-    for (len = 1; len < MAXBITS; len++) {
-        offs[len + 1] = offs[len] + count[len];
-    }
-    for (sym = 0; sym < codes; sym++) {
-        if (lens[lens_index + sym] !== 0) {
-            work[offs[lens[lens_index + sym]]++] = sym;
-        }
-    }
-    if (type === CODES) {
-        base = extra = work;
-        end = 19;
-    } else if (type === LENS) {
-        base = lbase;
-        base_index -= 257;
-        extra = lext;
-        extra_index -= 257;
-        end = 256;
-    } else {
-        base = dbase;
-        extra = dext;
-        end = -1;
-    }
-    huff = 0;
-    sym = 0;
-    len = min;
-    next = table_index;
-    curr = root;
-    drop = 0;
-    low = -1;
-    used = 1 << root;
-    mask = used - 1;
-    if (type === LENS && used > ENOUGH_LENS || type === DISTS && used > ENOUGH_DISTS) {
-        return 1;
-    }
-    for (;;) {
-        here_bits = len - drop;
-        if (work[sym] < end) {
-            here_op = 0;
-            here_val = work[sym];
-        } else if (work[sym] > end) {
-            here_op = extra[extra_index + work[sym]];
-            here_val = base[base_index + work[sym]];
-        } else {
-            here_op = 32 + 64;
-            here_val = 0;
-        }
-        incr = 1 << len - drop;
-        fill = 1 << curr;
-        min = fill;
-        do {
-            fill -= incr;
-            table[next + (huff >> drop) + fill] = here_bits << 24 | here_op << 16 | here_val | 0;
-        } while (fill !== 0);
-        incr = 1 << len - 1;
-        while (huff & incr) {
-            incr >>= 1;
-        }
-        if (incr !== 0) {
-            huff &= incr - 1;
-            huff += incr;
-        } else {
-            huff = 0;
-        }
-        sym++;
-        if (--count[len] === 0) {
-            if (len === max) {
-                break;
-            }
-            len = lens[lens_index + work[sym]];
-        }
-        if (len > root && (huff & mask) !== low) {
-            if (drop === 0) {
-                drop = root;
-            }
-            next += min;
-            curr = len - drop;
-            left = 1 << curr;
-            while (curr + drop < max) {
-                left -= count[curr + drop];
-                if (left <= 0) {
-                    break;
-                }
-                curr++;
-                left <<= 1;
-            }
-            used += 1 << curr;
-            if (type === LENS && used > ENOUGH_LENS || type === DISTS && used > ENOUGH_DISTS) {
-                return 1;
-            }
-            low = huff & mask;
-            table[low] = root << 24 | curr << 16 | next - table_index | 0;
-        }
-    }
-    if (huff !== 0) {
-        table[next + huff] = len - drop << 24 | 64 << 16 | 0;
-    }
-    opts.bits = root;
-    return 0;
-};
-
-var CODES$1 = 0;
-var LENS$1 = 1;
-var DISTS$1 = 2;
-var Z_FINISH = 4;
-var Z_BLOCK = 5;
-var Z_TREES = 6;
-var Z_OK = 0;
-var Z_STREAM_END = 1;
-var Z_NEED_DICT = 2;
-var Z_STREAM_ERROR = -2;
-var Z_DATA_ERROR = -3;
-var Z_MEM_ERROR = -4;
-var Z_BUF_ERROR = -5;
-var Z_DEFLATED = 8;
-var HEAD = 1;
-var FLAGS = 2;
-var TIME = 3;
-var OS = 4;
-var EXLEN = 5;
-var EXTRA = 6;
-var NAME = 7;
-var COMMENT = 8;
-var HCRC = 9;
-var DICTID = 10;
-var DICT = 11;
-var TYPE$1 = 12;
-var TYPEDO = 13;
-var STORED = 14;
-var COPY_ = 15;
-var COPY = 16;
-var TABLE = 17;
-var LENLENS = 18;
-var CODELENS = 19;
-var LEN_ = 20;
-var LEN = 21;
-var LENEXT = 22;
-var DIST = 23;
-var DISTEXT = 24;
-var MATCH = 25;
-var LIT = 26;
-var CHECK = 27;
-var LENGTH = 28;
-var DONE = 29;
-var BAD$1 = 30;
-var MEM = 31;
-var SYNC = 32;
-var ENOUGH_LENS$1 = 852;
-var ENOUGH_DISTS$1 = 592;
-var MAX_WBITS = 15;
-var DEF_WBITS = MAX_WBITS;
-function zswap32(q) {
-    return (q >>> 24 & 255) + (q >>> 8 & 65280) + ((q & 65280) << 8) + ((q & 255) << 24);
-}
-function InflateState() {
-    this.mode = 0;
-    this.last = false;
-    this.wrap = 0;
-    this.havedict = false;
-    this.flags = 0;
-    this.dmax = 0;
-    this.check = 0;
-    this.total = 0;
-    this.head = null;
-    this.wbits = 0;
-    this.wsize = 0;
-    this.whave = 0;
-    this.wnext = 0;
-    this.window = null;
-    this.hold = 0;
-    this.bits = 0;
-    this.length = 0;
-    this.offset = 0;
-    this.extra = 0;
-    this.lencode = null;
-    this.distcode = null;
-    this.lenbits = 0;
-    this.distbits = 0;
-    this.ncode = 0;
-    this.nlen = 0;
-    this.ndist = 0;
-    this.have = 0;
-    this.next = null;
-    this.lens = new common.Buf16(320);
-    this.work = new common.Buf16(288);
-    this.lendyn = null;
-    this.distdyn = null;
-    this.sane = 0;
-    this.back = 0;
-    this.was = 0;
-}
-function inflateResetKeep(strm) {
-    var state;
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    strm.total_in = strm.total_out = state.total = 0;
-    strm.msg = '';
-    if (state.wrap) {
-        strm.adler = state.wrap & 1;
-    }
-    state.mode = HEAD;
-    state.last = 0;
-    state.havedict = 0;
-    state.dmax = 32768;
-    state.head = null;
-    state.hold = 0;
-    state.bits = 0;
-    state.lencode = state.lendyn = new common.Buf32(ENOUGH_LENS$1);
-    state.distcode = state.distdyn = new common.Buf32(ENOUGH_DISTS$1);
-    state.sane = 1;
-    state.back = -1;
-    return Z_OK;
-}
-function inflateReset(strm) {
-    var state;
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    state.wsize = 0;
-    state.whave = 0;
-    state.wnext = 0;
-    return inflateResetKeep(strm);
-}
-function inflateReset2(strm, windowBits) {
-    var wrap;
-    var state;
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    if (windowBits < 0) {
-        wrap = 0;
-        windowBits = -windowBits;
-    } else {
-        wrap = (windowBits >> 4) + 1;
-        if (windowBits < 48) {
-            windowBits &= 15;
-        }
-    }
-    if (windowBits && (windowBits < 8 || windowBits > 15)) {
-        return Z_STREAM_ERROR;
-    }
-    if (state.window !== null && state.wbits !== windowBits) {
-        state.window = null;
-    }
-    state.wrap = wrap;
-    state.wbits = windowBits;
-    return inflateReset(strm);
-}
-function inflateInit2(strm, windowBits) {
-    var ret;
-    var state;
-    if (!strm) {
-        return Z_STREAM_ERROR;
-    }
-    state = new InflateState();
-    strm.state = state;
-    state.window = null;
-    ret = inflateReset2(strm, windowBits);
-    if (ret !== Z_OK) {
-        strm.state = null;
-    }
-    return ret;
-}
-function inflateInit(strm) {
-    return inflateInit2(strm, DEF_WBITS);
-}
-var virgin = true;
-var lenfix, distfix;
-function fixedtables(state) {
-    if (virgin) {
-        var sym;
-        lenfix = new common.Buf32(512);
-        distfix = new common.Buf32(32);
-        sym = 0;
-        while (sym < 144) {
-            state.lens[sym++] = 8;
-        }
-        while (sym < 256) {
-            state.lens[sym++] = 9;
-        }
-        while (sym < 280) {
-            state.lens[sym++] = 7;
-        }
-        while (sym < 288) {
-            state.lens[sym++] = 8;
-        }
-        inftrees(LENS$1, state.lens, 0, 288, lenfix, 0, state.work, { bits: 9 });
-        sym = 0;
-        while (sym < 32) {
-            state.lens[sym++] = 5;
-        }
-        inftrees(DISTS$1, state.lens, 0, 32, distfix, 0, state.work, { bits: 5 });
-        virgin = false;
-    }
-    state.lencode = lenfix;
-    state.lenbits = 9;
-    state.distcode = distfix;
-    state.distbits = 5;
-}
-function updatewindow(strm, src, end, copy) {
-    var dist;
-    var state = strm.state;
-    if (state.window === null) {
-        state.wsize = 1 << state.wbits;
-        state.wnext = 0;
-        state.whave = 0;
-        state.window = new common.Buf8(state.wsize);
-    }
-    if (copy >= state.wsize) {
-        common.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
-        state.wnext = 0;
-        state.whave = state.wsize;
-    } else {
-        dist = state.wsize - state.wnext;
-        if (dist > copy) {
-            dist = copy;
-        }
-        common.arraySet(state.window, src, end - copy, dist, state.wnext);
-        copy -= dist;
-        if (copy) {
-            common.arraySet(state.window, src, end - copy, copy, 0);
-            state.wnext = copy;
-            state.whave = state.wsize;
-        } else {
-            state.wnext += dist;
-            if (state.wnext === state.wsize) {
-                state.wnext = 0;
-            }
-            if (state.whave < state.wsize) {
-                state.whave += dist;
-            }
-        }
-    }
-    return 0;
-}
-function inflate(strm, flush) {
-    var state;
-    var input, output;
-    var next;
-    var put;
-    var have, left;
-    var hold;
-    var bits;
-    var _in, _out;
-    var copy;
-    var from;
-    var from_source;
-    var here = 0;
-    var here_bits, here_op, here_val;
-    var last_bits, last_op, last_val;
-    var len;
-    var ret;
-    var hbuf = new common.Buf8(4);
-    var opts;
-    var n;
-    var order = [
-        16,
-        17,
-        18,
-        0,
-        8,
-        7,
-        9,
-        6,
-        10,
-        5,
-        11,
-        4,
-        12,
-        3,
-        13,
-        2,
-        14,
-        1,
-        15
-    ];
-    if (!strm || !strm.state || !strm.output || !strm.input && strm.avail_in !== 0) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    if (state.mode === TYPE$1) {
-        state.mode = TYPEDO;
-    }
-    put = strm.next_out;
-    output = strm.output;
-    left = strm.avail_out;
-    next = strm.next_in;
-    input = strm.input;
-    have = strm.avail_in;
-    hold = state.hold;
-    bits = state.bits;
-    _in = have;
-    _out = left;
-    ret = Z_OK;
-    inf_leave:
-        for (;;) {
-            switch (state.mode) {
-            case HEAD:
-                if (state.wrap === 0) {
-                    state.mode = TYPEDO;
-                    break;
-                }
-                while (bits < 16) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if (state.wrap & 2 && hold === 35615) {
-                    state.check = 0;
-                    hbuf[0] = hold & 255;
-                    hbuf[1] = hold >>> 8 & 255;
-                    state.check = crc32_1(state.check, hbuf, 2, 0);
-                    hold = 0;
-                    bits = 0;
-                    state.mode = FLAGS;
-                    break;
-                }
-                state.flags = 0;
-                if (state.head) {
-                    state.head.done = false;
-                }
-                if (!(state.wrap & 1) || (((hold & 255) << 8) + (hold >> 8)) % 31) {
-                    strm.msg = 'incorrect header check';
-                    state.mode = BAD$1;
-                    break;
-                }
-                if ((hold & 15) !== Z_DEFLATED) {
-                    strm.msg = 'unknown compression method';
-                    state.mode = BAD$1;
-                    break;
-                }
-                hold >>>= 4;
-                bits -= 4;
-                len = (hold & 15) + 8;
-                if (state.wbits === 0) {
-                    state.wbits = len;
-                } else if (len > state.wbits) {
-                    strm.msg = 'invalid window size';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.dmax = 1 << len;
-                strm.adler = state.check = 1;
-                state.mode = hold & 512 ? DICTID : TYPE$1;
-                hold = 0;
-                bits = 0;
-                break;
-            case FLAGS:
-                while (bits < 16) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                state.flags = hold;
-                if ((state.flags & 255) !== Z_DEFLATED) {
-                    strm.msg = 'unknown compression method';
-                    state.mode = BAD$1;
-                    break;
-                }
-                if (state.flags & 57344) {
-                    strm.msg = 'unknown header flags set';
-                    state.mode = BAD$1;
-                    break;
-                }
-                if (state.head) {
-                    state.head.text = hold >> 8 & 1;
-                }
-                if (state.flags & 512) {
-                    hbuf[0] = hold & 255;
-                    hbuf[1] = hold >>> 8 & 255;
-                    state.check = crc32_1(state.check, hbuf, 2, 0);
-                }
-                hold = 0;
-                bits = 0;
-                state.mode = TIME;
-            case TIME:
-                while (bits < 32) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if (state.head) {
-                    state.head.time = hold;
-                }
-                if (state.flags & 512) {
-                    hbuf[0] = hold & 255;
-                    hbuf[1] = hold >>> 8 & 255;
-                    hbuf[2] = hold >>> 16 & 255;
-                    hbuf[3] = hold >>> 24 & 255;
-                    state.check = crc32_1(state.check, hbuf, 4, 0);
-                }
-                hold = 0;
-                bits = 0;
-                state.mode = OS;
-            case OS:
-                while (bits < 16) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if (state.head) {
-                    state.head.xflags = hold & 255;
-                    state.head.os = hold >> 8;
-                }
-                if (state.flags & 512) {
-                    hbuf[0] = hold & 255;
-                    hbuf[1] = hold >>> 8 & 255;
-                    state.check = crc32_1(state.check, hbuf, 2, 0);
-                }
-                hold = 0;
-                bits = 0;
-                state.mode = EXLEN;
-            case EXLEN:
-                if (state.flags & 1024) {
-                    while (bits < 16) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    state.length = hold;
-                    if (state.head) {
-                        state.head.extra_len = hold;
-                    }
-                    if (state.flags & 512) {
-                        hbuf[0] = hold & 255;
-                        hbuf[1] = hold >>> 8 & 255;
-                        state.check = crc32_1(state.check, hbuf, 2, 0);
-                    }
-                    hold = 0;
-                    bits = 0;
-                } else if (state.head) {
-                    state.head.extra = null;
-                }
-                state.mode = EXTRA;
-            case EXTRA:
-                if (state.flags & 1024) {
-                    copy = state.length;
-                    if (copy > have) {
-                        copy = have;
-                    }
-                    if (copy) {
-                        if (state.head) {
-                            len = state.head.extra_len - state.length;
-                            if (!state.head.extra) {
-                                state.head.extra = new Array(state.head.extra_len);
-                            }
-                            common.arraySet(state.head.extra, input, next, copy, len);
-                        }
-                        if (state.flags & 512) {
-                            state.check = crc32_1(state.check, input, copy, next);
-                        }
-                        have -= copy;
-                        next += copy;
-                        state.length -= copy;
-                    }
-                    if (state.length) {
-                        break inf_leave;
-                    }
-                }
-                state.length = 0;
-                state.mode = NAME;
-            case NAME:
-                if (state.flags & 2048) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    copy = 0;
-                    do {
-                        len = input[next + copy++];
-                        if (state.head && len && state.length < 65536) {
-                            state.head.name += String.fromCharCode(len);
-                        }
-                    } while (len && copy < have);
-                    if (state.flags & 512) {
-                        state.check = crc32_1(state.check, input, copy, next);
-                    }
-                    have -= copy;
-                    next += copy;
-                    if (len) {
-                        break inf_leave;
-                    }
-                } else if (state.head) {
-                    state.head.name = null;
-                }
-                state.length = 0;
-                state.mode = COMMENT;
-            case COMMENT:
-                if (state.flags & 4096) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    copy = 0;
-                    do {
-                        len = input[next + copy++];
-                        if (state.head && len && state.length < 65536) {
-                            state.head.comment += String.fromCharCode(len);
-                        }
-                    } while (len && copy < have);
-                    if (state.flags & 512) {
-                        state.check = crc32_1(state.check, input, copy, next);
-                    }
-                    have -= copy;
-                    next += copy;
-                    if (len) {
-                        break inf_leave;
-                    }
-                } else if (state.head) {
-                    state.head.comment = null;
-                }
-                state.mode = HCRC;
-            case HCRC:
-                if (state.flags & 512) {
-                    while (bits < 16) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    if (hold !== (state.check & 65535)) {
-                        strm.msg = 'header crc mismatch';
-                        state.mode = BAD$1;
-                        break;
-                    }
-                    hold = 0;
-                    bits = 0;
-                }
-                if (state.head) {
-                    state.head.hcrc = state.flags >> 9 & 1;
-                    state.head.done = true;
-                }
-                strm.adler = state.check = 0;
-                state.mode = TYPE$1;
-                break;
-            case DICTID:
-                while (bits < 32) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                strm.adler = state.check = zswap32(hold);
-                hold = 0;
-                bits = 0;
-                state.mode = DICT;
-            case DICT:
-                if (state.havedict === 0) {
-                    strm.next_out = put;
-                    strm.avail_out = left;
-                    strm.next_in = next;
-                    strm.avail_in = have;
-                    state.hold = hold;
-                    state.bits = bits;
-                    return Z_NEED_DICT;
-                }
-                strm.adler = state.check = 1;
-                state.mode = TYPE$1;
-            case TYPE$1:
-                if (flush === Z_BLOCK || flush === Z_TREES) {
-                    break inf_leave;
-                }
-            case TYPEDO:
-                if (state.last) {
-                    hold >>>= bits & 7;
-                    bits -= bits & 7;
-                    state.mode = CHECK;
-                    break;
-                }
-                while (bits < 3) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                state.last = hold & 1;
-                hold >>>= 1;
-                bits -= 1;
-                switch (hold & 3) {
-                case 0:
-                    state.mode = STORED;
-                    break;
-                case 1:
-                    fixedtables(state);
-                    state.mode = LEN_;
-                    if (flush === Z_TREES) {
-                        hold >>>= 2;
-                        bits -= 2;
-                        break inf_leave;
-                    }
-                    break;
-                case 2:
-                    state.mode = TABLE;
-                    break;
-                case 3:
-                    strm.msg = 'invalid block type';
-                    state.mode = BAD$1;
-                }
-                hold >>>= 2;
-                bits -= 2;
-                break;
-            case STORED:
-                hold >>>= bits & 7;
-                bits -= bits & 7;
-                while (bits < 32) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if ((hold & 65535) !== (hold >>> 16 ^ 65535)) {
-                    strm.msg = 'invalid stored block lengths';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.length = hold & 65535;
-                hold = 0;
-                bits = 0;
-                state.mode = COPY_;
-                if (flush === Z_TREES) {
-                    break inf_leave;
-                }
-            case COPY_:
-                state.mode = COPY;
-            case COPY:
-                copy = state.length;
-                if (copy) {
-                    if (copy > have) {
-                        copy = have;
-                    }
-                    if (copy > left) {
-                        copy = left;
-                    }
-                    if (copy === 0) {
-                        break inf_leave;
-                    }
-                    common.arraySet(output, input, next, copy, put);
-                    have -= copy;
-                    next += copy;
-                    left -= copy;
-                    put += copy;
-                    state.length -= copy;
-                    break;
-                }
-                state.mode = TYPE$1;
-                break;
-            case TABLE:
-                while (bits < 14) {
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                state.nlen = (hold & 31) + 257;
-                hold >>>= 5;
-                bits -= 5;
-                state.ndist = (hold & 31) + 1;
-                hold >>>= 5;
-                bits -= 5;
-                state.ncode = (hold & 15) + 4;
-                hold >>>= 4;
-                bits -= 4;
-                if (state.nlen > 286 || state.ndist > 30) {
-                    strm.msg = 'too many length or distance symbols';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.have = 0;
-                state.mode = LENLENS;
-            case LENLENS:
-                while (state.have < state.ncode) {
-                    while (bits < 3) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    state.lens[order[state.have++]] = hold & 7;
-                    hold >>>= 3;
-                    bits -= 3;
-                }
-                while (state.have < 19) {
-                    state.lens[order[state.have++]] = 0;
-                }
-                state.lencode = state.lendyn;
-                state.lenbits = 7;
-                opts = { bits: state.lenbits };
-                ret = inftrees(CODES$1, state.lens, 0, 19, state.lencode, 0, state.work, opts);
-                state.lenbits = opts.bits;
-                if (ret) {
-                    strm.msg = 'invalid code lengths set';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.have = 0;
-                state.mode = CODELENS;
-            case CODELENS:
-                while (state.have < state.nlen + state.ndist) {
-                    for (;;) {
-                        here = state.lencode[hold & (1 << state.lenbits) - 1];
-                        here_bits = here >>> 24;
-                        here_op = here >>> 16 & 255;
-                        here_val = here & 65535;
-                        if (here_bits <= bits) {
-                            break;
-                        }
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    if (here_val < 16) {
-                        hold >>>= here_bits;
-                        bits -= here_bits;
-                        state.lens[state.have++] = here_val;
-                    } else {
-                        if (here_val === 16) {
-                            n = here_bits + 2;
-                            while (bits < n) {
-                                if (have === 0) {
-                                    break inf_leave;
-                                }
-                                have--;
-                                hold += input[next++] << bits;
-                                bits += 8;
-                            }
-                            hold >>>= here_bits;
-                            bits -= here_bits;
-                            if (state.have === 0) {
-                                strm.msg = 'invalid bit length repeat';
-                                state.mode = BAD$1;
-                                break;
-                            }
-                            len = state.lens[state.have - 1];
-                            copy = 3 + (hold & 3);
-                            hold >>>= 2;
-                            bits -= 2;
-                        } else if (here_val === 17) {
-                            n = here_bits + 3;
-                            while (bits < n) {
-                                if (have === 0) {
-                                    break inf_leave;
-                                }
-                                have--;
-                                hold += input[next++] << bits;
-                                bits += 8;
-                            }
-                            hold >>>= here_bits;
-                            bits -= here_bits;
-                            len = 0;
-                            copy = 3 + (hold & 7);
-                            hold >>>= 3;
-                            bits -= 3;
-                        } else {
-                            n = here_bits + 7;
-                            while (bits < n) {
-                                if (have === 0) {
-                                    break inf_leave;
-                                }
-                                have--;
-                                hold += input[next++] << bits;
-                                bits += 8;
-                            }
-                            hold >>>= here_bits;
-                            bits -= here_bits;
-                            len = 0;
-                            copy = 11 + (hold & 127);
-                            hold >>>= 7;
-                            bits -= 7;
-                        }
-                        if (state.have + copy > state.nlen + state.ndist) {
-                            strm.msg = 'invalid bit length repeat';
-                            state.mode = BAD$1;
-                            break;
-                        }
-                        while (copy--) {
-                            state.lens[state.have++] = len;
-                        }
-                    }
-                }
-                if (state.mode === BAD$1) {
-                    break;
-                }
-                if (state.lens[256] === 0) {
-                    strm.msg = 'invalid code -- missing end-of-block';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.lenbits = 9;
-                opts = { bits: state.lenbits };
-                ret = inftrees(LENS$1, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
-                state.lenbits = opts.bits;
-                if (ret) {
-                    strm.msg = 'invalid literal/lengths set';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.distbits = 6;
-                state.distcode = state.distdyn;
-                opts = { bits: state.distbits };
-                ret = inftrees(DISTS$1, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
-                state.distbits = opts.bits;
-                if (ret) {
-                    strm.msg = 'invalid distances set';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.mode = LEN_;
-                if (flush === Z_TREES) {
-                    break inf_leave;
-                }
-            case LEN_:
-                state.mode = LEN;
-            case LEN:
-                if (have >= 6 && left >= 258) {
-                    strm.next_out = put;
-                    strm.avail_out = left;
-                    strm.next_in = next;
-                    strm.avail_in = have;
-                    state.hold = hold;
-                    state.bits = bits;
-                    inffast(strm, _out);
-                    put = strm.next_out;
-                    output = strm.output;
-                    left = strm.avail_out;
-                    next = strm.next_in;
-                    input = strm.input;
-                    have = strm.avail_in;
-                    hold = state.hold;
-                    bits = state.bits;
-                    if (state.mode === TYPE$1) {
-                        state.back = -1;
-                    }
-                    break;
-                }
-                state.back = 0;
-                for (;;) {
-                    here = state.lencode[hold & (1 << state.lenbits) - 1];
-                    here_bits = here >>> 24;
-                    here_op = here >>> 16 & 255;
-                    here_val = here & 65535;
-                    if (here_bits <= bits) {
-                        break;
-                    }
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if (here_op && (here_op & 240) === 0) {
-                    last_bits = here_bits;
-                    last_op = here_op;
-                    last_val = here_val;
-                    for (;;) {
-                        here = state.lencode[last_val + ((hold & (1 << last_bits + last_op) - 1) >> last_bits)];
-                        here_bits = here >>> 24;
-                        here_op = here >>> 16 & 255;
-                        here_val = here & 65535;
-                        if (last_bits + here_bits <= bits) {
-                            break;
-                        }
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    hold >>>= last_bits;
-                    bits -= last_bits;
-                    state.back += last_bits;
-                }
-                hold >>>= here_bits;
-                bits -= here_bits;
-                state.back += here_bits;
-                state.length = here_val;
-                if (here_op === 0) {
-                    state.mode = LIT;
-                    break;
-                }
-                if (here_op & 32) {
-                    state.back = -1;
-                    state.mode = TYPE$1;
-                    break;
-                }
-                if (here_op & 64) {
-                    strm.msg = 'invalid literal/length code';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.extra = here_op & 15;
-                state.mode = LENEXT;
-            case LENEXT:
-                if (state.extra) {
-                    n = state.extra;
-                    while (bits < n) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    state.length += hold & (1 << state.extra) - 1;
-                    hold >>>= state.extra;
-                    bits -= state.extra;
-                    state.back += state.extra;
-                }
-                state.was = state.length;
-                state.mode = DIST;
-            case DIST:
-                for (;;) {
-                    here = state.distcode[hold & (1 << state.distbits) - 1];
-                    here_bits = here >>> 24;
-                    here_op = here >>> 16 & 255;
-                    here_val = here & 65535;
-                    if (here_bits <= bits) {
-                        break;
-                    }
-                    if (have === 0) {
-                        break inf_leave;
-                    }
-                    have--;
-                    hold += input[next++] << bits;
-                    bits += 8;
-                }
-                if ((here_op & 240) === 0) {
-                    last_bits = here_bits;
-                    last_op = here_op;
-                    last_val = here_val;
-                    for (;;) {
-                        here = state.distcode[last_val + ((hold & (1 << last_bits + last_op) - 1) >> last_bits)];
-                        here_bits = here >>> 24;
-                        here_op = here >>> 16 & 255;
-                        here_val = here & 65535;
-                        if (last_bits + here_bits <= bits) {
-                            break;
-                        }
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    hold >>>= last_bits;
-                    bits -= last_bits;
-                    state.back += last_bits;
-                }
-                hold >>>= here_bits;
-                bits -= here_bits;
-                state.back += here_bits;
-                if (here_op & 64) {
-                    strm.msg = 'invalid distance code';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.offset = here_val;
-                state.extra = here_op & 15;
-                state.mode = DISTEXT;
-            case DISTEXT:
-                if (state.extra) {
-                    n = state.extra;
-                    while (bits < n) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    state.offset += hold & (1 << state.extra) - 1;
-                    hold >>>= state.extra;
-                    bits -= state.extra;
-                    state.back += state.extra;
-                }
-                if (state.offset > state.dmax) {
-                    strm.msg = 'invalid distance too far back';
-                    state.mode = BAD$1;
-                    break;
-                }
-                state.mode = MATCH;
-            case MATCH:
-                if (left === 0) {
-                    break inf_leave;
-                }
-                copy = _out - left;
-                if (state.offset > copy) {
-                    copy = state.offset - copy;
-                    if (copy > state.whave) {
-                        if (state.sane) {
-                            strm.msg = 'invalid distance too far back';
-                            state.mode = BAD$1;
-                            break;
-                        }
-                    }
-                    if (copy > state.wnext) {
-                        copy -= state.wnext;
-                        from = state.wsize - copy;
-                    } else {
-                        from = state.wnext - copy;
-                    }
-                    if (copy > state.length) {
-                        copy = state.length;
-                    }
-                    from_source = state.window;
-                } else {
-                    from_source = output;
-                    from = put - state.offset;
-                    copy = state.length;
-                }
-                if (copy > left) {
-                    copy = left;
-                }
-                left -= copy;
-                state.length -= copy;
-                do {
-                    output[put++] = from_source[from++];
-                } while (--copy);
-                if (state.length === 0) {
-                    state.mode = LEN;
-                }
-                break;
-            case LIT:
-                if (left === 0) {
-                    break inf_leave;
-                }
-                output[put++] = state.length;
-                left--;
-                state.mode = LEN;
-                break;
-            case CHECK:
-                if (state.wrap) {
-                    while (bits < 32) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold |= input[next++] << bits;
-                        bits += 8;
-                    }
-                    _out -= left;
-                    strm.total_out += _out;
-                    state.total += _out;
-                    if (_out) {
-                        strm.adler = state.check = state.flags ? crc32_1(state.check, output, _out, put - _out) : adler32_1(state.check, output, _out, put - _out);
-                    }
-                    _out = left;
-                    if ((state.flags ? hold : zswap32(hold)) !== state.check) {
-                        strm.msg = 'incorrect data check';
-                        state.mode = BAD$1;
-                        break;
-                    }
-                    hold = 0;
-                    bits = 0;
-                }
-                state.mode = LENGTH;
-            case LENGTH:
-                if (state.wrap && state.flags) {
-                    while (bits < 32) {
-                        if (have === 0) {
-                            break inf_leave;
-                        }
-                        have--;
-                        hold += input[next++] << bits;
-                        bits += 8;
-                    }
-                    if (hold !== (state.total & 4294967295)) {
-                        strm.msg = 'incorrect length check';
-                        state.mode = BAD$1;
-                        break;
-                    }
-                    hold = 0;
-                    bits = 0;
-                }
-                state.mode = DONE;
-            case DONE:
-                ret = Z_STREAM_END;
-                break inf_leave;
-            case BAD$1:
-                ret = Z_DATA_ERROR;
-                break inf_leave;
-            case MEM:
-                return Z_MEM_ERROR;
-            case SYNC:
-            default:
-                return Z_STREAM_ERROR;
-            }
-        }
-    strm.next_out = put;
-    strm.avail_out = left;
-    strm.next_in = next;
-    strm.avail_in = have;
-    state.hold = hold;
-    state.bits = bits;
-    if (state.wsize || _out !== strm.avail_out && state.mode < BAD$1 && (state.mode < CHECK || flush !== Z_FINISH)) {
-        if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) ;
-    }
-    _in -= strm.avail_in;
-    _out -= strm.avail_out;
-    strm.total_in += _in;
-    strm.total_out += _out;
-    state.total += _out;
-    if (state.wrap && _out) {
-        strm.adler = state.check = state.flags ? crc32_1(state.check, output, _out, strm.next_out - _out) : adler32_1(state.check, output, _out, strm.next_out - _out);
-    }
-    strm.data_type = state.bits + (state.last ? 64 : 0) + (state.mode === TYPE$1 ? 128 : 0) + (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
-    if ((_in === 0 && _out === 0 || flush === Z_FINISH) && ret === Z_OK) {
-        ret = Z_BUF_ERROR;
-    }
-    return ret;
-}
-function inflateEnd(strm) {
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    var state = strm.state;
-    if (state.window) {
-        state.window = null;
-    }
-    strm.state = null;
-    return Z_OK;
-}
-function inflateGetHeader(strm, head) {
-    var state;
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    if ((state.wrap & 2) === 0) {
-        return Z_STREAM_ERROR;
-    }
-    state.head = head;
-    head.done = false;
-    return Z_OK;
-}
-function inflateSetDictionary(strm, dictionary) {
-    var dictLength = dictionary.length;
-    var state;
-    var dictid;
-    var ret;
-    if (!strm || !strm.state) {
-        return Z_STREAM_ERROR;
-    }
-    state = strm.state;
-    if (state.wrap !== 0 && state.mode !== DICT) {
-        return Z_STREAM_ERROR;
-    }
-    if (state.mode === DICT) {
-        dictid = 1;
-        dictid = adler32_1(dictid, dictionary, dictLength, 0);
-        if (dictid !== state.check) {
-            return Z_DATA_ERROR;
-        }
-    }
-    ret = updatewindow(strm, dictionary, dictLength, dictLength);
-    if (ret) {
-        state.mode = MEM;
-        return Z_MEM_ERROR;
-    }
-    state.havedict = 1;
-    return Z_OK;
-}
-var inflateReset_1 = inflateReset;
-var inflateReset2_1 = inflateReset2;
-var inflateResetKeep_1 = inflateResetKeep;
-var inflateInit_1 = inflateInit;
-var inflateInit2_1 = inflateInit2;
-var inflate_2 = inflate;
-var inflateEnd_1 = inflateEnd;
-var inflateGetHeader_1 = inflateGetHeader;
-var inflateSetDictionary_1 = inflateSetDictionary;
-var inflateInfo = 'pako inflate (from Nodeca project)';
-
-var inflate_1 = {
-	inflateReset: inflateReset_1,
-	inflateReset2: inflateReset2_1,
-	inflateResetKeep: inflateResetKeep_1,
-	inflateInit: inflateInit_1,
-	inflateInit2: inflateInit2_1,
-	inflate: inflate_2,
-	inflateEnd: inflateEnd_1,
-	inflateGetHeader: inflateGetHeader_1,
-	inflateSetDictionary: inflateSetDictionary_1,
-	inflateInfo: inflateInfo
-};
-
-var STR_APPLY_OK = true;
-var STR_APPLY_UIA_OK = true;
 try {
     String.fromCharCode.apply(null, [0]);
 } catch (__) {
-    STR_APPLY_OK = false;
 }
 try {
     String.fromCharCode.apply(null, new Uint8Array(1));
 } catch (__) {
-    STR_APPLY_UIA_OK = false;
 }
 var _utf8len = new common.Buf8(256);
 for (var q = 0; q < 256; q++) {
     _utf8len[q] = q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1;
 }
 _utf8len[254] = _utf8len[254] = 1;
-var string2buf = function (str) {
-    var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
-    for (m_pos = 0; m_pos < str_len; m_pos++) {
-        c = str.charCodeAt(m_pos);
-        if ((c & 64512) === 55296 && m_pos + 1 < str_len) {
-            c2 = str.charCodeAt(m_pos + 1);
-            if ((c2 & 64512) === 56320) {
-                c = 65536 + (c - 55296 << 10) + (c2 - 56320);
-                m_pos++;
-            }
-        }
-        buf_len += c < 128 ? 1 : c < 2048 ? 2 : c < 65536 ? 3 : 4;
-    }
-    buf = new common.Buf8(buf_len);
-    for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
-        c = str.charCodeAt(m_pos);
-        if ((c & 64512) === 55296 && m_pos + 1 < str_len) {
-            c2 = str.charCodeAt(m_pos + 1);
-            if ((c2 & 64512) === 56320) {
-                c = 65536 + (c - 55296 << 10) + (c2 - 56320);
-                m_pos++;
-            }
-        }
-        if (c < 128) {
-            buf[i++] = c;
-        } else if (c < 2048) {
-            buf[i++] = 192 | c >>> 6;
-            buf[i++] = 128 | c & 63;
-        } else if (c < 65536) {
-            buf[i++] = 224 | c >>> 12;
-            buf[i++] = 128 | c >>> 6 & 63;
-            buf[i++] = 128 | c & 63;
-        } else {
-            buf[i++] = 240 | c >>> 18;
-            buf[i++] = 128 | c >>> 12 & 63;
-            buf[i++] = 128 | c >>> 6 & 63;
-            buf[i++] = 128 | c & 63;
-        }
-    }
-    return buf;
-};
-function buf2binstring(buf, len) {
-    if (len < 65537) {
-        if (buf.subarray && STR_APPLY_UIA_OK || !buf.subarray && STR_APPLY_OK) {
-            return String.fromCharCode.apply(null, common.shrinkBuf(buf, len));
-        }
-    }
-    var result = '';
-    for (var i = 0; i < len; i++) {
-        result += String.fromCharCode(buf[i]);
-    }
-    return result;
-}
-var buf2binstring_1 = function (buf) {
-    return buf2binstring(buf, buf.length);
-};
-var binstring2buf = function (str) {
-    var buf = new common.Buf8(str.length);
-    for (var i = 0, len = buf.length; i < len; i++) {
-        buf[i] = str.charCodeAt(i);
-    }
-    return buf;
-};
-var buf2string = function (buf, max) {
-    var i, out, c, c_len;
-    var len = max || buf.length;
-    var utf16buf = new Array(len * 2);
-    for (out = 0, i = 0; i < len;) {
-        c = buf[i++];
-        if (c < 128) {
-            utf16buf[out++] = c;
-            continue;
-        }
-        c_len = _utf8len[c];
-        if (c_len > 4) {
-            utf16buf[out++] = 65533;
-            i += c_len - 1;
-            continue;
-        }
-        c &= c_len === 2 ? 31 : c_len === 3 ? 15 : 7;
-        while (c_len > 1 && i < len) {
-            c = c << 6 | buf[i++] & 63;
-            c_len--;
-        }
-        if (c_len > 1) {
-            utf16buf[out++] = 65533;
-            continue;
-        }
-        if (c < 65536) {
-            utf16buf[out++] = c;
-        } else {
-            c -= 65536;
-            utf16buf[out++] = 55296 | c >> 10 & 1023;
-            utf16buf[out++] = 56320 | c & 1023;
-        }
-    }
-    return buf2binstring(utf16buf, out);
-};
-var utf8border = function (buf, max) {
-    var pos;
-    max = max || buf.length;
-    if (max > buf.length) {
-        max = buf.length;
-    }
-    pos = max - 1;
-    while (pos >= 0 && (buf[pos] & 192) === 128) {
-        pos--;
-    }
-    if (pos < 0) {
-        return max;
-    }
-    if (pos === 0) {
-        return max;
-    }
-    return pos + _utf8len[buf[pos]] > max ? pos : max;
-};
 
-var strings = {
-	string2buf: string2buf,
-	buf2binstring: buf2binstring_1,
-	binstring2buf: binstring2buf,
-	buf2string: buf2string,
-	utf8border: utf8border
-};
-
-var constants = {
-    Z_NO_FLUSH: 0,
-    Z_PARTIAL_FLUSH: 1,
-    Z_SYNC_FLUSH: 2,
-    Z_FULL_FLUSH: 3,
-    Z_FINISH: 4,
-    Z_BLOCK: 5,
-    Z_TREES: 6,
-    Z_OK: 0,
-    Z_STREAM_END: 1,
-    Z_NEED_DICT: 2,
-    Z_ERRNO: -1,
-    Z_STREAM_ERROR: -2,
-    Z_DATA_ERROR: -3,
-    Z_BUF_ERROR: -5,
-    Z_NO_COMPRESSION: 0,
-    Z_BEST_SPEED: 1,
-    Z_BEST_COMPRESSION: 9,
-    Z_DEFAULT_COMPRESSION: -1,
-    Z_FILTERED: 1,
-    Z_HUFFMAN_ONLY: 2,
-    Z_RLE: 3,
-    Z_FIXED: 4,
-    Z_DEFAULT_STRATEGY: 0,
-    Z_BINARY: 0,
-    Z_TEXT: 1,
-    Z_UNKNOWN: 2,
-    Z_DEFLATED: 8
-};
-
-var messages = {
-    2: 'need dictionary',
-    1: 'stream end',
-    0: '',
-    '-1': 'file error',
-    '-2': 'stream error',
-    '-3': 'data error',
-    '-4': 'insufficient memory',
-    '-5': 'buffer error',
-    '-6': 'incompatible version'
-};
-
-function ZStream() {
-    this.input = null;
-    this.next_in = 0;
-    this.avail_in = 0;
-    this.total_in = 0;
-    this.output = null;
-    this.next_out = 0;
-    this.avail_out = 0;
-    this.total_out = 0;
-    this.msg = '';
-    this.state = null;
-    this.data_type = 2;
-    this.adler = 0;
-}
-var zstream = ZStream;
-
-function GZheader() {
-    this.text = 0;
-    this.time = 0;
-    this.xflags = 0;
-    this.os = 0;
-    this.extra = null;
-    this.extra_len = 0;
-    this.name = '';
-    this.comment = '';
-    this.hcrc = 0;
-    this.done = false;
-}
-var gzheader = GZheader;
-
-var toString = Object.prototype.toString;
-function Inflate(options) {
-    if (!(this instanceof Inflate))
-        { return new Inflate(options); }
-    this.options = common.assign({
-        chunkSize: 16384,
-        windowBits: 0,
-        to: ''
-    }, options || {});
-    var opt = this.options;
-    if (opt.raw && opt.windowBits >= 0 && opt.windowBits < 16) {
-        opt.windowBits = -opt.windowBits;
-        if (opt.windowBits === 0) {
-            opt.windowBits = -15;
-        }
-    }
-    if (opt.windowBits >= 0 && opt.windowBits < 16 && !(options && options.windowBits)) {
-        opt.windowBits += 32;
-    }
-    if (opt.windowBits > 15 && opt.windowBits < 48) {
-        if ((opt.windowBits & 15) === 0) {
-            opt.windowBits |= 15;
-        }
-    }
-    this.err = 0;
-    this.msg = '';
-    this.ended = false;
-    this.chunks = [];
-    this.strm = new zstream();
-    this.strm.avail_out = 0;
-    var status = inflate_1.inflateInit2(this.strm, opt.windowBits);
-    if (status !== constants.Z_OK) {
-        throw new Error(messages[status]);
-    }
-    this.header = new gzheader();
-    inflate_1.inflateGetHeader(this.strm, this.header);
-}
-Inflate.prototype.push = function (data, mode) {
-    var this$1 = this;
-
-    var strm = this.strm;
-    var chunkSize = this.options.chunkSize;
-    var dictionary = this.options.dictionary;
-    var status, _mode;
-    var next_out_utf8, tail, utf8str;
-    var dict;
-    var allowBufError = false;
-    if (this.ended) {
-        return false;
-    }
-    _mode = mode === ~~mode ? mode : mode === true ? constants.Z_FINISH : constants.Z_NO_FLUSH;
-    if (typeof data === 'string') {
-        strm.input = strings.binstring2buf(data);
-    } else if (toString.call(data) === '[object ArrayBuffer]') {
-        strm.input = new Uint8Array(data);
-    } else {
-        strm.input = data;
-    }
-    strm.next_in = 0;
-    strm.avail_in = strm.input.length;
-    do {
-        if (strm.avail_out === 0) {
-            strm.output = new common.Buf8(chunkSize);
-            strm.next_out = 0;
-            strm.avail_out = chunkSize;
-        }
-        status = inflate_1.inflate(strm, constants.Z_NO_FLUSH);
-        if (status === constants.Z_NEED_DICT && dictionary) {
-            if (typeof dictionary === 'string') {
-                dict = strings.string2buf(dictionary);
-            } else if (toString.call(dictionary) === '[object ArrayBuffer]') {
-                dict = new Uint8Array(dictionary);
-            } else {
-                dict = dictionary;
-            }
-            status = inflate_1.inflateSetDictionary(this$1.strm, dict);
-        }
-        if (status === constants.Z_BUF_ERROR && allowBufError === true) {
-            status = constants.Z_OK;
-            allowBufError = false;
-        }
-        if (status !== constants.Z_STREAM_END && status !== constants.Z_OK) {
-            this$1.onEnd(status);
-            this$1.ended = true;
-            return false;
-        }
-        if (strm.next_out) {
-            if (strm.avail_out === 0 || status === constants.Z_STREAM_END || strm.avail_in === 0 && (_mode === constants.Z_FINISH || _mode === constants.Z_SYNC_FLUSH)) {
-                if (this$1.options.to === 'string') {
-                    next_out_utf8 = strings.utf8border(strm.output, strm.next_out);
-                    tail = strm.next_out - next_out_utf8;
-                    utf8str = strings.buf2string(strm.output, next_out_utf8);
-                    strm.next_out = tail;
-                    strm.avail_out = chunkSize - tail;
-                    if (tail) {
-                        common.arraySet(strm.output, strm.output, next_out_utf8, tail, 0);
-                    }
-                    this$1.onData(utf8str);
-                } else {
-                    this$1.onData(common.shrinkBuf(strm.output, strm.next_out));
-                }
-            }
-        }
-        if (strm.avail_in === 0 && strm.avail_out === 0) {
-            allowBufError = true;
-        }
-    } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== constants.Z_STREAM_END);
-    if (status === constants.Z_STREAM_END) {
-        _mode = constants.Z_FINISH;
-    }
-    if (_mode === constants.Z_FINISH) {
-        status = inflate_1.inflateEnd(this.strm);
-        this.onEnd(status);
-        this.ended = true;
-        return status === constants.Z_OK;
-    }
-    if (_mode === constants.Z_SYNC_FLUSH) {
-        this.onEnd(constants.Z_OK);
-        strm.avail_out = 0;
-        return true;
-    }
-    return true;
-};
-Inflate.prototype.onData = function (chunk) {
-    this.chunks.push(chunk);
-};
-Inflate.prototype.onEnd = function (status) {
-    if (status === constants.Z_OK) {
-        if (this.options.to === 'string') {
-            this.result = this.chunks.join('');
-        } else {
-            this.result = common.flattenChunks(this.chunks);
-        }
-    }
-    this.chunks = [];
-    this.err = status;
-    this.msg = this.strm.msg;
-};
-function inflate$1(input, options) {
-    var inflator = new Inflate(options);
-    inflator.push(input, true);
-    if (inflator.err) {
-        throw inflator.msg || messages[inflator.err];
-    }
-    return inflator.result;
-}
-function inflateRaw(input, options) {
-    options = options || {};
-    options.raw = true;
-    return inflate$1(input, options);
-}
-var Inflate_1 = Inflate;
-var inflate_2$1 = inflate$1;
-var inflateRaw_1 = inflateRaw;
-var ungzip = inflate$1;
-
-var inflate_1$1 = {
-	Inflate: Inflate_1,
-	inflate: inflate_2$1,
-	inflateRaw: inflateRaw_1,
-	ungzip: ungzip
-};
-
-var byteLength_1 = byteLength;
-var toByteArray_1 = toByteArray;
-var fromByteArray_1 = fromByteArray;
 var lookup = [];
 var revLookup = [];
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array;
 var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 for (var i = 0, len = code.length; i < len; ++i) {
     lookup[i] = code[i];
@@ -39272,127 +39694,26 @@ for (var i = 0, len = code.length; i < len; ++i) {
 }
 revLookup['-'.charCodeAt(0)] = 62;
 revLookup['_'.charCodeAt(0)] = 63;
-function getLens(b64) {
-    var len = b64.length;
-    if (len % 4 > 0) {
-        throw new Error('Invalid string. Length must be a multiple of 4');
-    }
-    var validLen = b64.indexOf('=');
-    if (validLen === -1)
-        { validLen = len; }
-    var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
-    return [
-        validLen,
-        placeHoldersLen
-    ];
-}
-function byteLength(b64) {
-    var lens = getLens(b64);
-    var validLen = lens[0];
-    var placeHoldersLen = lens[1];
-    return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-}
-function _byteLength(b64, validLen, placeHoldersLen) {
-    return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-}
-function toByteArray(b64) {
-    var tmp;
-    var lens = getLens(b64);
-    var validLen = lens[0];
-    var placeHoldersLen = lens[1];
-    var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
-    var curByte = 0;
-    var len = placeHoldersLen > 0 ? validLen - 4 : validLen;
-    for (var i = 0; i < len; i += 4) {
-        tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)];
-        arr[curByte++] = tmp >> 16 & 255;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-    }
-    if (placeHoldersLen === 2) {
-        tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4;
-        arr[curByte++] = tmp & 255;
-    }
-    if (placeHoldersLen === 1) {
-        tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-    }
-    return arr;
-}
-function tripletToBase64(num) {
-    return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[num & 63];
-}
-function encodeChunk(uint8, start, end) {
-    var tmp;
-    var output = [];
-    for (var i = start; i < end; i += 3) {
-        tmp = (uint8[i] << 16 & 16711680) + (uint8[i + 1] << 8 & 65280) + (uint8[i + 2] & 255);
-        output.push(tripletToBase64(tmp));
-    }
-    return output.join('');
-}
-function fromByteArray(uint8) {
-    var tmp;
-    var len = uint8.length;
-    var extraBytes = len % 3;
-    var parts = [];
-    var maxChunkLength = 16383;
-    for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-        parts.push(encodeChunk(uint8, i, i + maxChunkLength > len2 ? len2 : i + maxChunkLength));
-    }
-    if (extraBytes === 1) {
-        tmp = uint8[len - 1];
-        parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 63] + '==');
-    } else if (extraBytes === 2) {
-        tmp = (uint8[len - 2] << 8) + uint8[len - 1];
-        parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + '=');
-    }
-    return parts.join('');
-}
 
-var base64Js = {
-	byteLength: byteLength_1,
-	toByteArray: toByteArray_1,
-	fromByteArray: fromByteArray_1
-};
-
+var CapacitorSQLite = { Plugins: __chunk_1.Plugins };
 var MBTilesSource = (function (VectorTileSource$$1) {
     function MBTilesSource(id, options, dispatcher, eventedParent) {
         VectorTileSource$$1.call(this, id, options, dispatcher, eventedParent);
         this.type = 'mbtiles';
-        this.db = this.openDatabase(options.path);
+        this.dbLocation = options.path;
     }
 
     if ( VectorTileSource$$1 ) MBTilesSource.__proto__ = VectorTileSource$$1;
     MBTilesSource.prototype = Object.create( VectorTileSource$$1 && VectorTileSource$$1.prototype );
     MBTilesSource.prototype.constructor = MBTilesSource;
-    MBTilesSource.prototype.openDatabase = function openDatabase (dbLocation) {
-        return __chunk_1.Database.openDatabase(dbLocation);
-    };
-    MBTilesSource.prototype.copyDatabaseFile = function copyDatabaseFile (dbLocation, dbName, targetDir) {
-        return __chunk_1.Database.copyDatabaseFile(dbLocation, dbName, targetDir);
+    MBTilesSource.prototype.openDatabase = function openDatabase () {
+        return CapacitorSQLite.open({ database: this.dbLocation });
     };
     MBTilesSource.prototype.readTile = function readTile (z, x, y, callback) {
-        var query = 'SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=? AND tile_column=? AND tile_row=?';
-        var params = [
-            z,
-            x,
-            y
-        ];
-        this.db.then(function (db) {
-            db.transaction(function (txn) {
-                txn.executeSql(query, params, function (tx, res) {
-                    if (res.rows.length) {
-                        var base64Data = res.rows.item(0).base64_tile_data;
-                        var rawData = inflate_1$1.inflate(base64Js.toByteArray(base64Data));
-                        callback(undefined, base64Js.fromByteArray(rawData));
-                    } else {
-                        callback(new Error('tile ' + params.join(',') + ' not found'));
-                    }
-                });
-            }, function (error) {
-                callback(error);
+        var query = "SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=" + z + " AND tile_column=" + x + " AND tile_row=" + y;
+        this.openDatabase().then(function () {
+            this.db.execute(query).then(function (result) {
+                console.log(result);
             });
         }).catch(function (err) {
             callback(err);

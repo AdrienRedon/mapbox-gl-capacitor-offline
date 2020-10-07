@@ -1,41 +1,43 @@
 import VectorTileSource from 'mapbox-gl/src/source/vector_tile_source'
 import pako from 'pako/lib/inflate'
 import base64js from 'base64-js'
-import Database from './database'
+import { Plugins } from '@capacitor/core';
+
+const CapacitorSQLite = { Plugins };
 
 class MBTilesSource extends VectorTileSource {
+
 
     constructor(id, options, dispatcher, eventedParent) {
         super(id, options, dispatcher, eventedParent);
         this.type = "mbtiles";
-        this.db = this.openDatabase(options.path);
+        this.dbLocation = options.path;
     }
 
-    openDatabase(dbLocation) {
-        return Database.openDatabase(dbLocation)
-    }
-
-    copyDatabaseFile(dbLocation, dbName, targetDir) {
-        return Database.copyDatabaseFile(dbLocation, dbName, targetDir)
+    openDatabase() {
+        return CapacitorSQLite.open({ database: this.dbLocation });
     }
 
     readTile(z, x, y, callback) {
-        const query = 'SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=? AND tile_column=? AND tile_row=?';
-        const params = [z, x, y];
-        this.db.then(function(db) {
-            db.transaction(function (txn) {
-                txn.executeSql(query, params, function (tx, res) {
-                    if (res.rows.length) {
-                        const base64Data = res.rows.item(0).base64_tile_data;
-                        const rawData = pako.inflate(base64js.toByteArray(base64Data));
-                        callback(undefined, base64js.fromByteArray(rawData)); // Tile contents read, callback success.
-                    } else {
-                        callback(new Error('tile ' + params.join(',') + ' not found'));
-                    }
-                });
-            }, function (error) {
-                callback(error); // Error executing SQL
-            });
+        const query = `SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=${z} AND tile_column=${x} AND tile_row=${y}`;
+        // const params = [z, x, y];
+        this.openDatabase().then(function() {
+            // db.transaction(function (txn) {
+            //     txn.executeSql(query, params, function (tx, res) {
+            //         if (res.rows.length) {
+            //             const base64Data = res.rows.item(0).base64_tile_data;
+            //             const rawData = pako.inflate(base64js.toByteArray(base64Data));
+            //             callback(undefined, base64js.fromByteArray(rawData)); // Tile contents read, callback success.
+            //         } else {
+            //             callback(new Error('tile ' + params.join(',') + ' not found'));
+            //         }
+            //     });
+            // }, function (error) {
+            //     callback(error); // Error executing SQL
+            // });
+            this.db.execute(query).then(result => {
+                console.log(result);
+            })
         }).catch(function(err) {
             callback(err);
         });

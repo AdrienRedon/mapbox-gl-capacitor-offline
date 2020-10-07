@@ -1,8 +1,8 @@
 {
-  "name": "mapbox-gl-cordova-offline",
+  "name": "mapbox-gl-capacitor-offline",
   "version": "0.2.1",
-  "description": "Offline vector maps in Cordova using Mapbox GL JS",
-  "main": "www/mapbox-gl-cordova-offline.js",
+  "description": "Offline vector maps in Capacitor using Mapbox GL JS",
+  "main": "www/mapbox-gl-capacitor-offline.js",
   "scripts": {
     "start": "run-p run-android start-server build-dev",
     "run-android": "cordova run android",
@@ -12,11 +12,11 @@
     "build-prod-min": "rollup -c --environment BUILD:production,MINIFY:true"
   },
   "keywords": [],
-  "author": "Oscar Fonts <oscar.fonts@geomati.co>",
+  "author": "Adrien REDON <redon.adrien@gmail.com>",
   "license": "SEE LICENSE IN LICENSE.txt",
   "repository": {
     "type": "git",
-    "url": "git@github.com:oscarfonts/mapbox-gl-cordova-offline.git"
+    "url": "git@github.com:adrienredon/mapbox-gl-capacitor-offline.git"
   },
   "devDependencies": {
     "@mapbox/flow-remove-types": "1.3.0-await.upstream.1",
@@ -42,26 +42,10 @@
     "rollup-pluginutils": "2.3.3"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "2.4.2-2",
+    "@capacitor/cli": "2.4.2",
+    "@capacitor/core": "2.4.2",
     "base64-js": "1.3.0",
-    "brfs": "^1.4.4",
-    "cordova-android": "6.3.0",
-    "cordova-ios": "4.5.4",
-    "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-device": "1.1.6",
-    "cordova-plugin-file": "6.0.1",
-    "cordova-plugin-whitelist": "1.3.2",
-    "cordova-sqlite-ext": "0.10.5"
-  },
-  "cordova": {
-    "plugins": {
-      "cordova-plugin-whitelist": {},
-      "cordova-plugin-file": {},
-      "cordova-sqlite-ext": {},
-      "cordova-plugin-device": {}
-    },
-    "platforms": [
-      "ios",
-      "android"
-    ]
+    "brfs": "^1.4.4"
   }
 }

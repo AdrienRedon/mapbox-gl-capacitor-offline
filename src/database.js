@@ -1,4 +1,6 @@
+import { Plugins } from '@capacitor/core';
 
+const CapacitorSQLite = { Plugins };
 
 class Database {
 
