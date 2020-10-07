@@ -45,7 +45,7 @@ export default class Worker {
             vector: VectorTileWorkerSource,
             mbtiles: VectorTileWorkerSource,
             geojson: GeoJSONWorkerSource,
-            rasteroffline: RasterTileSourceOffline
+            // rasteroffline: RasterTileSourceOffline
         };
 
         // [mapId][sourceType][sourceName] => worker source instance
