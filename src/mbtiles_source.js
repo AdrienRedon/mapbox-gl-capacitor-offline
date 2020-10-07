@@ -10,11 +10,13 @@ class MBTilesSource extends VectorTileSource {
         super(id, options, dispatcher, eventedParent);
         this.type = "mbtiles";
         this.db = options.db;
+        console.log(options);
     }
 
     readTile(z, x, y, callback) {
         const query = `SELECT BASE64(tile_data) AS base64_tile_data FROM tiles WHERE zoom_level=${z} AND tile_column=${x} AND tile_row=${y}`;
         // const params = [z, x, y];
+        console.log(this.db);
         this.db.then(function() {
             // db.transaction(function (txn) {
             //     txn.executeSql(query, params, function (tx, res) {

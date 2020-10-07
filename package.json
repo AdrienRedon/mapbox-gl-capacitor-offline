@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-capacitor-offline",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Offline vector maps in Capacitor using Mapbox GL JS",
   "main": "www/mapbox-gl-capacitor-offline.js",
   "scripts": {
