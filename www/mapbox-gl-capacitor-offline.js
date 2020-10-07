@@ -1,4 +1,4 @@
-/* Mapbox GL JS is licensed under the 3-Clause BSD License. Full text of license: https://github.com/mapbox/mapbox-gl-js/blob/v0.3.2/LICENSE.txt */
+/* Mapbox GL JS is licensed under the 3-Clause BSD License. Full text of license: https://github.com/mapbox/mapbox-gl-js/blob/v0.3.4/LICENSE.txt */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 typeof define === 'function' && define.amd ? define(factory) :
@@ -36,4 +36,4 @@ define(["./shared.js"],function(t){"use strict";var e=t.createCommonjsModule(fun
 return mapboxgl;
 
 })));
-//# sourceMappingURL=mapbox-gl-cordova-offline.js.map
+//# sourceMappingURL=mapbox-gl-capacitor-offline.js.map

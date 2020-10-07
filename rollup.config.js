@@ -7,8 +7,8 @@ const {BUILD, MINIFY} = process.env;
 const minified = MINIFY === 'true';
 const production = BUILD === 'production';
 const outputFile =
-    !production ? 'www/mapbox-gl-cordova-offline-dev.js':
-    minified ? 'www/mapbox-gl-cordova-offline.js'  : 'www/mapbox-gl-cordova-offline-unminified.js';
+    !production ? 'www/mapbox-gl-capacitor-offline-dev.js':
+    minified ? 'www/mapbox-gl-capacitor-offline.js'  : 'www/mapbox-gl-capacitor-offline-unminified.js';
 
 const config = [{
     // First, use code splitting to bundle GL JS into three "chunks":
